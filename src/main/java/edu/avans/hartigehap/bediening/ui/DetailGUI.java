@@ -43,7 +43,7 @@ public class DetailGUI extends JDialog {
     private OrderManager manager;
     private int orderId;
     private Order newOrder;
-   private JTable dataTable;
+   private JTable dataTable,foodTable;
 
     public DetailGUI(Frame parent, boolean modal, final int tableNumber) {
         super(parent, modal);
@@ -60,7 +60,7 @@ public class DetailGUI extends JDialog {
         JLabel orderFoodLabel = new JLabel("Order maaltijden");
         JTable infoTable = new JTable();
         dataTable = new JTable();
-        JTable foodTable = new JTable();
+        foodTable = new JTable();
         JScrollPane infoScrollPane = new JScrollPane();
         JScrollPane dataScrollPane = new JScrollPane();
         JScrollPane foodScrollPane = new JScrollPane();
@@ -117,24 +117,17 @@ public class DetailGUI extends JDialog {
 
         orderFoodLabel.setPreferredSize(new Dimension(250, 14));
         rightPanel.add(orderFoodLabel);
-        if (newOrder != null) {
-            OrderTableModel model = new OrderTableModel(newOrder);
-            infoTable.setModel(model);
-            DetailOrderTableModel model1 = new DetailOrderTableModel(manager,tableNumber);
-            dataTable.setModel(model1);
 
-        }
 
 
         foodTable.setModel(new DefaultTableModel(
                 new Object[][]
                         {
-                                {null, null, null},
-                                {null, null, null}
+
                         },
                 new String[]
                         {
-                                "Naam", "Prijs", "Status"
+                                "Naam","Aantal", "Prijs","Status"
                         }
         ));
         foodScrollPane.setViewportView(foodTable);
@@ -151,13 +144,22 @@ public class DetailGUI extends JDialog {
                 back();
             }
         });
+        if (newOrder != null) {
+            OrderTableModel model = new OrderTableModel(newOrder);
+            infoTable.setModel(model);
+            DetailOrderTableModel model1 = new DetailOrderTableModel(manager,tableNumber);
+            dataTable.setModel(model1);
+            MealTableModel meals = new MealTableModel(manager,tableNumber);
+            foodTable.setModel(meals);
 
+        }
         exitPanel.add(backButton, BorderLayout.PAGE_END);
         rightPanel.add(exitPanel);
 
         getContentPane().add(leftPanel, BorderLayout.WEST);
         getContentPane().add(rightPanel, BorderLayout.EAST);
-        checkStatus();
+        checkDrinkStatus();
+        checkMealStatus();
     }
 
 
@@ -196,7 +198,7 @@ public class DetailGUI extends JDialog {
 
     }
 
-    public void checkStatus(){
+    public void checkDrinkStatus(){
         if (dataTable.getRowCount() > 0) {
             dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -204,6 +206,7 @@ public class DetailGUI extends JDialog {
                     int row = dataTable.rowAtPoint(evt.getPoint());
                     int col = dataTable.columnAtPoint(evt.getPoint());
                     int selected;
+                    System.out.println("Col = " + col);
                     if (row >= 0 && col >= 5) {
                         if (dataTable.getValueAt(row, col).toString().equals("NOT_STARTED")) {
                             selected = 0;
@@ -220,6 +223,40 @@ public class DetailGUI extends JDialog {
                         orderId = newOrder.getId();
                         String itemName = (String) dataTable.getValueAt(row, 0);
                         changeStatus(selected, dataTable, row, col, orderId, itemName);
+
+                    }
+                }
+
+
+            });
+        }
+    }
+
+    public void checkMealStatus(){
+        if (foodTable.getRowCount() > 0) {
+            foodTable.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    int row = foodTable.rowAtPoint(evt.getPoint());
+                    int col = foodTable.columnAtPoint(evt.getPoint());
+                    int selected;
+                    System.out.println("Col = " + col);
+                    if (row >= 0 && col >= 3) {
+                        if (foodTable.getValueAt(row, col).toString().equals("NOT_STARTED")) {
+                            selected = 0;
+                        } else if (foodTable.getValueAt(row, col).toString().equals("STARTED")) {
+
+                            selected = 1;
+                        } else if (foodTable.getValueAt(row, col).toString().equals("READY")) {
+
+                            selected = 2;
+                        } else {
+
+                            selected = 3;
+                        }
+                        orderId = newOrder.getId();
+                        String itemName = (String) foodTable.getValueAt(row, 0);
+                        changeStatus(selected,foodTable, row, col, orderId, itemName);
 
                     }
                 }

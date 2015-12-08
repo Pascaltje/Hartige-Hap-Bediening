@@ -58,13 +58,13 @@ public class OrderDAO {
 
                         Order newOrder = new Order(id, 1, PaymentStatus.valueOf("NOT_PAID"), currentTime, 20.00, tableNo);
                         order = newOrder;
-                        PreparedStatement subStament = connection.createStatement("select dhh_orderitem.*, dhh_item.Price*dhh_orderitem.amount as Itemtotalprice , dhh_beverage.alcoholPercentage from dhh_orderitem, dhh_item, dhh_beverage where ORDERorderNo = ? and dhh_orderitem.ITEMitemName = dhh_item.itemName and dhh_item.itemName = dhh_beverage.ITEMitemName");
+                        PreparedStatement subStament = connection.createStatement("SELECT dhh_orderitem . * ,dhh_item.COURSEcourseName as coursename, dhh_item.Price * dhh_orderitem.amount AS Itemtotalprice FROM dhh_orderitem, dhh_item WHERE ORDERorderNo = ? AND dhh_orderitem.ITEMitemName = dhh_item.itemName");
                         subStament.setInt(1, order.getId());
                         ResultSet subResultSet = connection.execute(subStament);
 
                         if (subResultSet != null) {
                             while (subResultSet.next()) {
-                                OrderDetail orderDetails = new OrderDetail(subResultSet.getInt("ORDERorderNo"), OrderStatus.values()[subResultSet.getInt("orderStatus")-1], subResultSet.getInt("EMPLOYEEemployeeid"), subResultSet.getInt("amount"), subResultSet.getString("description"), subResultSet.getString("ITEMitemName"), subResultSet.getDouble("Itemtotalprice"));
+                                OrderDetail orderDetails = new OrderDetail(subResultSet.getInt("ORDERorderNo"), OrderStatus.values()[subResultSet.getInt("orderStatus")-1], subResultSet.getInt("EMPLOYEEemployeeid"), subResultSet.getInt("amount"), subResultSet.getString("description"), subResultSet.getString("ITEMitemName"), subResultSet.getDouble("Itemtotalprice"),subResultSet.getString("coursename"));
                                 order.addOrderDetail(orderDetails);
                             }
                         }

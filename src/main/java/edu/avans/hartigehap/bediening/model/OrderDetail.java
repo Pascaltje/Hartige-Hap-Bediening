@@ -33,8 +33,9 @@ public class OrderDetail
 	private int amount;
 	private double totalPrice;
 	private int consumableId;
+	private String courseName;
 
-	public OrderDetail(int orderId, OrderStatus status, int employeeId, int amount,String description,String itemName,Double totalPrice)
+	public OrderDetail(int orderId, OrderStatus status, int employeeId, int amount,String description,String itemName,Double totalPrice,String courseName)
 	{
 //		this.id = id;
 		this.description = description;
@@ -44,6 +45,7 @@ public class OrderDetail
 		this.amount = amount;
 		this.itemName = itemName;
 		this.totalPrice = totalPrice;
+		this.courseName = courseName;
 //		this.consumableId = consumableId;
 	}
 
@@ -56,6 +58,14 @@ public class OrderDetail
 //	{
 //		this.id = id;
 //	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
 
 	public int getOrderId()
 	{

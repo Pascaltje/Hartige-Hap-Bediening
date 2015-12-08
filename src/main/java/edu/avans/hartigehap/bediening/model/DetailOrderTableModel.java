@@ -17,23 +17,30 @@ public class DetailOrderTableModel extends DefaultTableModel {
     private ArrayList<OrderDetail> orderItems;
 
     public DetailOrderTableModel(OrderManager orderManager,int tableNumber) {
-
+        ArrayList<OrderDetail> drinks = new ArrayList<>();
         Order newOrder = null;
         newOrder = orderManager.getOrderByTableNumber(tableNumber);
         orderItems = newOrder.getOrderDetails();
+        for(OrderDetail drink : orderItems){
+            if(drink.getCourseName().equals("Drankjes")){
+                drinks.add(drink);
+            }
+        }
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        Object[][] data = new Object[orderItems.size()][5];
+        Object[][] data = new Object[drinks.size()][5];
         String[] columns = new String[]
                 {
                         "Naam", "EmployeeId", "Aantal", "Prijs", "Beschrijving", "Status"
                 };
-        for (int i = 0; i < orderItems.size(); i++) {
-            OrderDetail orderItem = orderItems.get(i);
-            data[i] = new Object[]
-                    {
-                            orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), orderItem.getTotalPrice(), orderItem.getDescription(), orderItem.getStatus()
-                    };
-        }
+        for (int i = 0; i < drinks.size(); i++) {
+            OrderDetail orderItem = drinks.get(i);
+                data[i] = new Object[]
+                        {
+                                orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
+                        };
+            }
+
+
         this.setDataVector(data, columns);
         this.fireTableDataChanged();
         refreshOrders(orderManager,tableNumber);
@@ -45,17 +52,23 @@ public class DetailOrderTableModel extends DefaultTableModel {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                ArrayList<OrderDetail> drinks = new ArrayList<>();
                 Order newOrder = null;
                 newOrder = orderManager.getOrderByTableNumber(tableNumber);
                 orderItems = newOrder.getOrderDetails();
+                for(OrderDetail drink : orderItems){
+                    if(drink.getCourseName().equals("Drankjes")){
+                        drinks.add(drink);
+                    }
+                }
                 DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                Object[][] data = new Object[orderItems.size()][5];
+                Object[][] data = new Object[drinks.size()][5];
                 String[] columns = new String[]
                         {
                                 "Naam", "EmployeeId", "Aantal", "Prijs", "Beschrijving", "Status"
                         };
-                for (int i = 0; i < orderItems.size(); i++) {
-                    OrderDetail orderItem = orderItems.get(i);
+                for (int i = 0; i < drinks.size(); i++) {
+                    OrderDetail orderItem = drinks.get(i);
                     data[i] = new Object[]
                             {
                                     orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
