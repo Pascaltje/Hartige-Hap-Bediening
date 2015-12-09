@@ -19,8 +19,6 @@ package edu.avans.hartigehap.bediening;
 
 import edu.avans.hartigehap.bediening.logic.OrderManager;
 import edu.avans.hartigehap.bediening.ui.SummaryGUI;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *

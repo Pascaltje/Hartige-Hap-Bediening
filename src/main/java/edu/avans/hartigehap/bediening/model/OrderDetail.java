@@ -24,7 +24,6 @@ package edu.avans.hartigehap.bediening.model;
 public class OrderDetail
 {
 
-//	private int id;
 	private int orderId;
 	private String description;
 	private OrderStatus status;
@@ -35,9 +34,8 @@ public class OrderDetail
 	private int consumableId;
 	private String courseName;
 
-	public OrderDetail(int orderId, OrderStatus status, int employeeId, int amount,String description,String itemName,Double totalPrice,String courseName)
+	public OrderDetail(int orderId, OrderStatus status, int employeeId, int amount, String description, String itemName, Double totalPrice, String courseName)
 	{
-//		this.id = id;
 		this.description = description;
 		this.orderId = orderId;
 		this.status = status;
@@ -46,24 +44,15 @@ public class OrderDetail
 		this.itemName = itemName;
 		this.totalPrice = totalPrice;
 		this.courseName = courseName;
-//		this.consumableId = consumableId;
 	}
 
-//	public int getId()
-//	{
-//		return id;
-//	}
-//
-//	public void setId(int id)
-//	{
-//		this.id = id;
-//	}
-
-	public String getCourseName() {
+	public String getCourseName()
+	{
 		return courseName;
 	}
 
-	public void setCourseName(String courseName) {
+	public void setCourseName(String courseName)
+	{
 		this.courseName = courseName;
 	}
 
@@ -127,19 +116,23 @@ public class OrderDetail
 		this.consumableId = consumableId;
 	}
 
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 
-	public String getItemName() {
+	public String getItemName()
+	{
 		return itemName;
 	}
 
-	public void setItemName(String itemName) {
+	public void setItemName(String itemName)
+	{
 		this.itemName = itemName;
 	}
 }

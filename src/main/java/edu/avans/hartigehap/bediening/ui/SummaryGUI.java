@@ -16,11 +16,6 @@
  */
 package edu.avans.hartigehap.bediening.ui;
 
-import edu.avans.hartigehap.bediening.logic.OrderManager;
-import edu.avans.hartigehap.bediening.model.Order;
-import edu.avans.hartigehap.bediening.model.OrderDetail;
-import edu.avans.hartigehap.bediening.model.OrderStatus;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog;
@@ -30,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -90,7 +86,6 @@ public class SummaryGUI extends JFrame
 		tablesPanel.setLayout(new GridLayout(4, 3, 20, 20));
 		for (int i = 1; i < 13; i++)
 		{
-
 			JButton button = new JButton("Tafel " + i);
 			button.setName("" + i);
 			button.addActionListener(new ActionListener()
@@ -106,20 +101,22 @@ public class SummaryGUI extends JFrame
 			tablesPanel.add(button);
 		}
 		leftPanel.add(tablesPanel);
-		
+
 		rightPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
 		rightPanel.setPreferredSize(new Dimension(300, 450));
-		
+
 		mealOverviewLabel.setPreferredSize(new Dimension(250, 14));
 		rightPanel.add(mealOverviewLabel);
-		
+
 		foodScrollPane.setBackground(Color.WHITE);
 		foodScrollPane.setPreferredSize(new Dimension(250, 150));
-		
+
 		foodTable.setModel(new DefaultTableModel(
 			new Object[][]
 			{
-				{null, null, null}
+				{
+					null, null, null
+				}
 			},
 			new String[]
 			{
@@ -128,11 +125,11 @@ public class SummaryGUI extends JFrame
 		));
 		foodScrollPane.setViewportView(foodTable);
 		rightPanel.add(foodScrollPane);
-		
+
 		getContentPane().add(leftPanel, BorderLayout.WEST);
 		getContentPane().add(rightPanel, BorderLayout.EAST);
 	}
-	
+
 	private void checkDetail(int tableNumber)
 	{
 		DetailGUI detail = new DetailGUI(this, true, tableNumber);
