@@ -34,6 +34,11 @@ public class DatabaseConnection
 
     private static final Logger LOG = Logger.getLogger(DatabaseConnection.class.getName());
 
+	private final String HOST = "145.48.6.147";
+	private final String DATABASE = "ivp4a2";
+	private final String USER = "root";
+	private final String PASSWORD = "10ec4u";
+	
     private Connection connection;
 
     public DatabaseConnection()
@@ -48,7 +53,7 @@ public class DatabaseConnection
         {
             try
             {
-                connection = DriverManager.getConnection("jdbc:mysql://145.48.6.147/ivp4a2", "root", "10ec4u");
+                connection = DriverManager.getConnection("jdbc:mysql://" + HOST + "/" + DATABASE, USER, PASSWORD);
                 result = true;
             } catch(SQLException exception)
             {

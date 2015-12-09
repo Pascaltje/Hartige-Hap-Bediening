@@ -25,6 +25,9 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -42,6 +45,8 @@ import javax.swing.table.DefaultTableModel;
 public class DetailGUI extends JDialog
 {
 
+	private final Logger LOG = Logger.getLogger(DetailGUI.class.getSimpleName());
+	
 	private OrderManager manager;
 	private int orderId;
 	private Order newOrder;
@@ -159,7 +164,7 @@ public class DetailGUI extends JDialog
 
 	public void changeStatus(int selected, JTable dataTable, int row, int col, int orderId, String itemName)
 	{
-		System.out.println(dataTable.getValueAt(row, col));
+		LOG.info(dataTable.getValueAt(row, col).toString());
 		OrderStatus status = OrderStatus.values()[selected];
 		switch (status)
 		{
@@ -179,6 +184,8 @@ public class DetailGUI extends JDialog
 				manager.changeStatusById(orderId, 1, itemName);
 				dataTable.setValueAt(OrderStatus.NOT_STARTED, row, col);
 				break;
+			default:
+				break;
 		}
 	}
 
@@ -193,8 +200,8 @@ public class DetailGUI extends JDialog
 				{
 					int row = dataTable.rowAtPoint(evt.getPoint());
 					int col = dataTable.columnAtPoint(evt.getPoint());
-					int selected;
-					System.out.println("Col = " + col);
+					int selected = 3;
+					LOG.log(Level.INFO, "Col = {0}", col);
 					if (row >= 0 && col >= 5)
 					{
 						switch (dataTable.getValueAt(row, col).toString())
@@ -209,7 +216,6 @@ public class DetailGUI extends JDialog
 								selected = 2;
 								break;
 							default:
-								selected = 3;
 								break;
 						}
 						orderId = newOrder.getId();
@@ -232,8 +238,8 @@ public class DetailGUI extends JDialog
 				{
 					int row = foodTable.rowAtPoint(evt.getPoint());
 					int col = foodTable.columnAtPoint(evt.getPoint());
-					int selected;
-					System.out.println("Col = " + col);
+					int selected = 3;
+					LOG.log(Level.INFO, "Col = {0}", col);
 					if (row >= 0 && col >= 3)
 					{
 						switch (foodTable.getValueAt(row, col).toString())
@@ -248,7 +254,6 @@ public class DetailGUI extends JDialog
 								selected = 2;
 								break;
 							default:
-								selected = 3;
 								break;
 						}
 						orderId = newOrder.getId();

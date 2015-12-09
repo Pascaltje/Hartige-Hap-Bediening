@@ -30,16 +30,10 @@ public class Launcher
 
 	public static void main(String[] args)
 	{
-		final OrderManager manager = OrderManager.getInstance();
-//		Timer timer = new Timer();
-//		timer.schedule(new TimerTask()
-//		{
-//			@Override
-//			public void run()
-//			{
-//				//manager.refresh();
-//			}
-//		}, 0, 5000);
 		new SummaryGUI().setVisible(true);
+	}
+	
+	private Launcher()
+	{
 	}
 }

@@ -17,7 +17,7 @@
 package edu.avans.hartigehap.bediening.model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 /**
  * @author David Verhaak
@@ -32,7 +32,7 @@ public class Order
 	private String date;
 	private double totalAmount;
 	private int tableNumber;
-	private ArrayList<OrderDetail> orderDetails;
+	private List<OrderDetail> orderDetails;
 
 	public Order(int id, int guestId, PaymentStatus paymentStatus, String date, double totalAmount, int tableNumber)
 	{
@@ -105,7 +105,7 @@ public class Order
 		this.totalAmount = totalAmount;
 	}
 
-	public ArrayList<OrderDetail> getOrderDetails()
+	public List<OrderDetail> getOrderDetails()
 	{
 		return orderDetails;
 	}

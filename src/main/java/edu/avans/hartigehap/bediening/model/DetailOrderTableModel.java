@@ -3,8 +3,10 @@ package edu.avans.hartigehap.bediening.model;
 import edu.avans.hartigehap.bediening.logic.OrderManager;
 
 import javax.swing.table.DefaultTableModel;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,16 +16,16 @@ import java.util.TimerTask;
 public class DetailOrderTableModel extends DefaultTableModel
 {
 
-	private ArrayList<OrderDetail> orderItems;
+	private List<OrderDetail> orderItems;
 
 	public DetailOrderTableModel(OrderManager orderManager, int tableNumber)
 	{
-		ArrayList<OrderDetail> drinks = new ArrayList<>();
+		List<OrderDetail> drinks = new ArrayList<>();
 		Order newOrder = orderManager.getOrderByTableNumber(tableNumber);
 		orderItems = newOrder.getOrderDetails();
 		for (OrderDetail drink : orderItems)
 		{
-			if (drink.getCourseName().equals("Drankjes"))
+			if("Drankjes".equals(drink.getCourseName()))
 			{
 				drinks.add(drink);
 			}
@@ -56,12 +58,12 @@ public class DetailOrderTableModel extends DefaultTableModel
 			@Override
 			public void run()
 			{
-				ArrayList<OrderDetail> drinks = new ArrayList<>();
+				List<OrderDetail> drinks = new ArrayList<>();
 				Order newOrder = orderManager.getOrderByTableNumber(tableNumber);
 				orderItems = newOrder.getOrderDetails();
 				for (OrderDetail drink : orderItems)
 				{
-					if (drink.getCourseName().equals("Drankjes"))
+					if("Drankjes".equals(drink.getCourseName()))
 					{
 						drinks.add(drink);
 					}
