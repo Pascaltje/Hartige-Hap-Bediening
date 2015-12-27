@@ -34,14 +34,14 @@ public class MealTableModel extends DefaultTableModel
 		Object[][] data = new Object[meals.size()][5];
 		String[] columns = new String[]
 		{
-			"Naam", "Aantal", "Prijs", "Status"
+				"Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
 		};
 		for (int i = 0; i < meals.size(); i++)
 		{
 			OrderDetail orderItem = meals.get(i);
 			data[i] = new Object[]
 			{
-				orderItem.getItemName(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getStatus()
+					orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
 			};
 		}
 
@@ -73,14 +73,14 @@ public class MealTableModel extends DefaultTableModel
 				Object[][] data = new Object[meals.size()][5];
 				String[] columns = new String[]
 				{
-					"Naam", "Aantal", "Prijs", "Status"
+						"Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
 				};
 				for (int i = 0; i < meals.size(); i++)
 				{
 					OrderDetail orderItem = meals.get(i);
 					data[i] = new Object[]
 					{
-						orderItem.getItemName(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getStatus()
+							orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
 					};
 				}
 				MealTableModel.this.setDataVector(data, columns);

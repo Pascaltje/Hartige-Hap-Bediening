@@ -42,231 +42,220 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author David
  */
-public class DetailGUI extends JDialog
-{
+public class DetailGUI extends JDialog {
 
-	private final Logger LOG = Logger.getLogger(DetailGUI.class.getSimpleName());
-	
-	private OrderManager manager;
-	private int orderId;
-	private Order newOrder;
-	private JTable dataTable, foodTable;
+    private final Logger LOG = Logger.getLogger(DetailGUI.class.getSimpleName());
 
-	public DetailGUI(Frame parent, boolean modal, final int tableNumber)
-	{
-		super(parent, modal);
-		setPreferredSize(new Dimension(700, 350));
-		setSize(750, 350);
-		setUndecorated(true);
-		rootPane.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, null));
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		JPanel leftPanel = new JPanel();
-		JPanel rightPanel = new JPanel();
-		JPanel exitPanel = new JPanel();
-		JLabel orderInfoLabel = new JLabel("Ordergegevens");
-		JLabel orderDataLabel = new JLabel("Orderinhoud");
-		JLabel orderFoodLabel = new JLabel("Order maaltijden");
-		JTable infoTable = new JTable();
-		dataTable = new JTable();
-		foodTable = new JTable();
-		JScrollPane infoScrollPane = new JScrollPane();
-		JScrollPane dataScrollPane = new JScrollPane();
-		JScrollPane foodScrollPane = new JScrollPane();
-		JButton backButton = new JButton("Terug");
+    private OrderManager manager;
+    private int orderId;
+    private Order newOrder;
+    private JTable dataTable, foodTable;
 
-		manager = OrderManager.getInstance();
-		newOrder = manager.getOrderByTableNumber(tableNumber);
+    public DetailGUI(Frame parent, boolean modal, final int tableNumber) {
+        super(parent, modal);
+        setPreferredSize(new Dimension(700, 350));
+        setSize(750, 350);
+        setUndecorated(true);
+        rootPane.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, null));
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        JPanel leftPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
+        JPanel exitPanel = new JPanel();
+        JLabel orderInfoLabel = new JLabel("Ordergegevens");
+        JLabel orderDataLabel = new JLabel("Orderinhoud");
+        JLabel orderFoodLabel = new JLabel("Order maaltijden");
+        JTable infoTable = new JTable();
+        dataTable = new JTable();
+        foodTable = new JTable();
+        JScrollPane infoScrollPane = new JScrollPane();
+        JScrollPane dataScrollPane = new JScrollPane();
+        JScrollPane foodScrollPane = new JScrollPane();
+        JButton backButton = new JButton("Terug");
 
-		leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
-		leftPanel.setPreferredSize(new Dimension(400, 350));
+        manager = OrderManager.getInstance();
+        newOrder = manager.getOrderByTableNumber(tableNumber);
 
-		orderInfoLabel.setPreferredSize(new Dimension(350, 14));
-		leftPanel.add(orderInfoLabel);
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
+        leftPanel.setPreferredSize(new Dimension(400, 350));
 
-		infoTable.setModel(new DefaultTableModel(
-			new Object[][]
-			{
-				{
-					null, null, null, null, null
-				}
-			},
-			new String[]
-			{
-				"Tafelnummer", "Gastnaam", "Totale prijs", "Datum", "Status"
-			}
-		));
+        orderInfoLabel.setPreferredSize(new Dimension(350, 14));
+        leftPanel.add(orderInfoLabel);
 
-		infoTable.setPreferredSize(new Dimension(350, 64));
-		infoScrollPane.setPreferredSize(new Dimension(350, 42));
-		infoScrollPane.setViewportView(infoTable);
-		infoScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		leftPanel.add(infoScrollPane);
+        infoTable.setModel(new DefaultTableModel(
+                new Object[][]
+                        {
+                                {
+                                        null, null, null, null, null
+                                }
+                        },
+                new String[]
+                        {
+                                "Tafelnummer", "Gastnaam", "Totale prijs", "Datum", "Status"
+                        }
+        ));
 
-		orderDataLabel.setPreferredSize(new Dimension(350, 30));
-		leftPanel.add(orderDataLabel);
+        infoTable.setPreferredSize(new Dimension(350, 64));
+        infoScrollPane.setPreferredSize(new Dimension(350, 42));
+        infoScrollPane.setViewportView(infoTable);
+        infoScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        leftPanel.add(infoScrollPane);
 
-		dataTable.setModel(new DefaultTableModel(new Object[][] {},
-			new String[]
-			{
-				"Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
-			}
-		));
-		dataScrollPane.setPreferredSize(new Dimension(350, 190));
-		dataScrollPane.setViewportView(dataTable);
-		leftPanel.add(dataScrollPane);
+        orderDataLabel.setPreferredSize(new Dimension(350, 30));
+        leftPanel.add(orderDataLabel);
 
-		rightPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
-		rightPanel.setPreferredSize(new Dimension(300, 350));
+        dataTable.setModel(new DefaultTableModel(new Object[][]{},
+                new String[]
+                        {
+                                "Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
+                        }
+        ));
+        dataScrollPane.setPreferredSize(new Dimension(350, 190));
+        dataScrollPane.setViewportView(dataTable);
+        leftPanel.add(dataScrollPane);
 
-		orderFoodLabel.setPreferredSize(new Dimension(250, 14));
-		rightPanel.add(orderFoodLabel);
+        rightPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
+        rightPanel.setPreferredSize(new Dimension(300, 350));
 
-		foodTable.setModel(new DefaultTableModel(
-			new Object[][]
-			{
+        orderFoodLabel.setPreferredSize(new Dimension(250, 14));
+        rightPanel.add(orderFoodLabel);
 
-			},
-			new String[]
-			{
-				"Naam", "Aantal", "Prijs", "Status"
-			}
-		));
-		foodScrollPane.setViewportView(foodTable);
-		foodScrollPane.setPreferredSize(new Dimension(250, 230));
-		rightPanel.add(foodScrollPane);
-		exitPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-		exitPanel.setPreferredSize(new Dimension(250, 38));
-		exitPanel.setLayout(new BorderLayout());
-		backButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-				back();
-			}
-		});
-		if (newOrder != null)
-		{
-			OrderTableModel model = new OrderTableModel(newOrder);
-			infoTable.setModel(model);
-			DetailOrderTableModel model1 = new DetailOrderTableModel(manager, tableNumber);
-			dataTable.setModel(model1);
-			MealTableModel meals = new MealTableModel(manager, tableNumber);
-			foodTable.setModel(meals);
-		}
-		exitPanel.add(backButton, BorderLayout.PAGE_END);
-		rightPanel.add(exitPanel);
-		getContentPane().add(leftPanel, BorderLayout.WEST);
-		getContentPane().add(rightPanel, BorderLayout.EAST);
-		checkDrinkStatus();
-		checkMealStatus();
-	}
+        foodTable.setModel(new DefaultTableModel(
+                new Object[][]
+                        {
 
-	public void changeStatus(int selected, JTable dataTable, int row, int col, int orderId, String itemName)
-	{
-		LOG.info(dataTable.getValueAt(row, col).toString());
-		OrderStatus status = OrderStatus.values()[selected];
-		switch (status)
-		{
-			case NOT_STARTED:
-				manager.changeStatusById(orderId, 2, itemName);
-				dataTable.setValueAt(OrderStatus.STARTED, row, col);
-				break;
-			case STARTED:
-				manager.changeStatusById(orderId, 3, itemName);
-				dataTable.setValueAt(OrderStatus.READY, row, col);
-				break;
-			case READY:
-				manager.changeStatusById(orderId, 4, itemName);
-				dataTable.setValueAt(OrderStatus.FINISHED, row, col);
-				break;
-			case FINISHED:
-				manager.changeStatusById(orderId, 1, itemName);
-				dataTable.setValueAt(OrderStatus.NOT_STARTED, row, col);
-				break;
-			default:
-				break;
-		}
-	}
+                        },
+                new String[]
+                        {
+                                "Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
+                        }
+        ));
+        foodScrollPane.setViewportView(foodTable);
+        foodScrollPane.setPreferredSize(new Dimension(250, 230));
+        rightPanel.add(foodScrollPane);
+        exitPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+        exitPanel.setPreferredSize(new Dimension(250, 38));
+        exitPanel.setLayout(new BorderLayout());
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                back();
+            }
+        });
+        if (newOrder != null) {
+            OrderTableModel model = new OrderTableModel(newOrder);
+            infoTable.setModel(model);
+            DetailOrderTableModel model1 = new DetailOrderTableModel(manager, tableNumber);
+            dataTable.setModel(model1);
+            MealTableModel meals = new MealTableModel(manager, tableNumber);
+            foodTable.setModel(meals);
+        }
+        exitPanel.add(backButton, BorderLayout.PAGE_END);
+        rightPanel.add(exitPanel);
+        getContentPane().add(leftPanel, BorderLayout.WEST);
+        getContentPane().add(rightPanel, BorderLayout.EAST);
+        if (dataTable.getRowCount() > 0) {
+            manager.checkStatus(dataTable, newOrder);
 
-	public void checkDrinkStatus()
-	{
-		if (dataTable.getRowCount() > 0)
-		{
-			dataTable.addMouseListener(new java.awt.event.MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(java.awt.event.MouseEvent evt)
-				{
-					int row = dataTable.rowAtPoint(evt.getPoint());
-					int col = dataTable.columnAtPoint(evt.getPoint());
-					int selected = 3;
-					LOG.log(Level.INFO, "Col = {0}", col);
-					if (row >= 0 && col >= 5)
-					{
-						switch (dataTable.getValueAt(row, col).toString())
-						{
-							case "NOT_STARTED":
-								selected = 0;
-								break;
-							case "STARTED":
-								selected = 1;
-								break;
-							case "READY":
-								selected = 2;
-								break;
-							default:
-								break;
-						}
-						orderId = newOrder.getId();
-						String itemName = (String) dataTable.getValueAt(row, 0);
-						changeStatus(selected, dataTable, row, col, orderId, itemName);
-					}
-				}
-			});
-		}
-	}
+        }
+        if (foodTable.getRowCount() > 0) {
+            manager.checkStatus(foodTable, newOrder);
+        }
+    }
+//
+//	public void changeStatus(int selected, JTable dataTable, int row, int col, int orderId, String itemName)
+//	{
+//		LOG.info(dataTable.getValueAt(row, col).toString());
+//		OrderStatus status = OrderStatus.values()[selected];
+//		switch (status)
+//		{
+//			case NOT_STARTED:
+//				manager.changeStatusById(orderId, 2, itemName);
+//				dataTable.setValueAt(OrderStatus.STARTED, row, col);
+//				break;
+//			case STARTED:
+//				manager.changeStatusById(orderId, 3, itemName);
+//				dataTable.setValueAt(OrderStatus.READY, row, col);
+//				break;
+//			case READY:
+//				manager.changeStatusById(orderId, 4, itemName);
+//				dataTable.setValueAt(OrderStatus.FINISHED, row, col);
+//				break;
+//			case FINISHED:
+//				manager.changeStatusById(orderId, 1, itemName);
+//				dataTable.setValueAt(OrderStatus.NOT_STARTED, row, col);
+//				break;
+//			default:
+//				break;
+//		}
+//	}
 
-	public void checkMealStatus()
-	{
-		if (foodTable.getRowCount() > 0)
-		{
-			foodTable.addMouseListener(new java.awt.event.MouseAdapter()
-			{
-				@Override
-				public void mouseClicked(java.awt.event.MouseEvent evt)
-				{
-					int row = foodTable.rowAtPoint(evt.getPoint());
-					int col = foodTable.columnAtPoint(evt.getPoint());
-					int selected = 3;
-					LOG.log(Level.INFO, "Col = {0}", col);
-					if (row >= 0 && col >= 3)
-					{
-						switch (foodTable.getValueAt(row, col).toString())
-						{
-							case "NOT_STARTED":
-								selected = 0;
-								break;
-							case "STARTED":
-								selected = 1;
-								break;
-							case "READY":
-								selected = 2;
-								break;
-							default:
-								break;
-						}
-						orderId = newOrder.getId();
-						String itemName = (String) foodTable.getValueAt(row, 0);
-						changeStatus(selected, foodTable, row, col, orderId, itemName);
-					}
-				}
-			});
-		}
-	}
+//    public void checkDrinkStatus() {
+//        dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
+//            @Override
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                int row = dataTable.rowAtPoint(evt.getPoint());
+//                int col = dataTable.columnAtPoint(evt.getPoint());
+//                orderId = newOrder.getId();
+//                String itemName = (String) dataTable.getValueAt(row, 0);
+//                LOG.log(Level.INFO, "Col = {0}", col);
+//                if (row >= 0 && col >= 5) {
+//                    switch (dataTable.getValueAt(row, col).toString()) {
+//                        case "NOT_STARTED":
+//                            manager.changeStatusById(orderId, 2, itemName);
+//                            dataTable.setValueAt(OrderStatus.STARTED, row, col);
+//                            break;
+//                        case "STARTED":
+//                            manager.changeStatusById(orderId, 3, itemName);
+//                            dataTable.setValueAt(OrderStatus.READY, row, col);
+//                            break;
+//                        case "READY":
+//                            manager.changeStatusById(orderId, 4, itemName);
+//                            dataTable.setValueAt(OrderStatus.FINISHED, row, col);
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//
+//                }
+//            }
+//        });
+//
+//    }
+//
+//    public void checkMealStatus() {
+//
+//        foodTable.addMouseListener(new java.awt.event.MouseAdapter() {
+//            @Override
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                int row = foodTable.rowAtPoint(evt.getPoint());
+//                int col = foodTable.columnAtPoint(evt.getPoint());
+//                String itemName = (String) foodTable.getValueAt(row, 0);
+//                orderId = newOrder.getId();
+//                LOG.log(Level.INFO, "Col = {0}", col);
+//                if (row >= 0 && col >= 3) {
+//                    switch (foodTable.getValueAt(row, col).toString()) {
+//                        case "NOT_STARTED":
+//                            manager.changeStatusById(orderId, 2, itemName);
+//                            foodTable.setValueAt(OrderStatus.STARTED, row, col);
+//                            break;
+//                        case "STARTED":
+//                            manager.changeStatusById(orderId, 3, itemName);
+//                            foodTable.setValueAt(OrderStatus.READY, row, col);
+//                            break;
+//                        case "READY":
+//                            manager.changeStatusById(orderId, 4, itemName);
+//                            foodTable.setValueAt(OrderStatus.FINISHED, row, col);
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//
+//                }
+//            }
+//        });
+//    }
 
-	private void back()
-	{
-		this.dispose();
-	}
+    private void back() {
+        this.dispose();
+    }
 }

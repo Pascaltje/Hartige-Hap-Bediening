@@ -16,29 +16,42 @@
  */
 package edu.avans.hartigehap.bediening.logic;
 
+import edu.avans.hartigehap.bediening.io.OrderDAO;
+import edu.avans.hartigehap.bediening.model.Order;
+
+import java.util.*;
+import java.util.jar.Pack200;
+
 /**
- *
  * @author David
  */
-public class TableManager
-{
 
-	private static TableManager instance = null;
+public class TableManager {
+    private static TableManager instance = null;
 
-	public static TableManager getInstance()
-	{
-		synchronized(TableManager.class)
-		{
-			if(instance == null)
-			{
-				instance = new TableManager();
-			}
-		}
-		return instance;
-	}
-	
-	private TableManager()
-	{
+    public static TableManager getInstance() {
+        synchronized (TableManager.class) {
+            if (instance == null) {
+                instance = new TableManager();
+            }
+        }
+        return instance;
+    }
 
-	}
+    private TableManager() {
+
+    }
+
+
+    public ArrayList<Order> changeTableColor() {
+
+        OrderDAO orderDao = new OrderDAO();
+        return orderDao.getOrderStatus();
+
+
+    }
+
+    public HashMap returnTableStatus(HashMap<Integer, String> map) {
+        return map;
+    }
 }

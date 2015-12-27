@@ -18,7 +18,9 @@ package edu.avans.hartigehap.bediening.logic;
 
 import edu.avans.hartigehap.bediening.io.OrderDAO;
 import edu.avans.hartigehap.bediening.model.Order;
+import edu.avans.hartigehap.bediening.model.OrderStatus;
 
+import javax.swing.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +29,7 @@ import java.util.logging.Logger;
  */
 public class OrderManager
 {
-
+	private final Logger LOG = Logger.getLogger(OrderManager.class.getSimpleName());
 	private static OrderManager instance = null;
 	private OrderDAO orderDAO;
 
@@ -60,8 +62,42 @@ public class OrderManager
 
 	public void changeStatusById(int orderId, int newStatus, String itemName)
 	{
-		System.out.println("new orderstatus  = " + newStatus);
 		orderDAO.changeStatusById(orderId, newStatus, itemName);
+
+	}
+
+	public void checkStatus(JTable dataTable, Order newOrder) {
+		dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = dataTable.rowAtPoint(evt.getPoint());
+				int col = dataTable.columnAtPoint(evt.getPoint());
+				int orderId = newOrder.getId();
+				String itemName = (String) dataTable.getValueAt(row, 0);
+				LOG.log(Level.INFO, "Col = {0}", col);
+				if (row >= 0 && col >= 5) {
+					switch (dataTable.getValueAt(row, col).toString()) {
+						case "NOT_STARTED":
+							changeStatusById(orderId, 2, itemName);
+							dataTable.setValueAt(OrderStatus.STARTED, row, col);
+							break;
+						case "STARTED":
+							changeStatusById(orderId, 3, itemName);
+							dataTable.setValueAt(OrderStatus.READY, row, col);
+							break;
+						case "READY":
+							changeStatusById(orderId, 4, itemName);
+							dataTable.setValueAt(OrderStatus.FINISHED, row, col);
+							break;
+						case "FINISHED":
+							changeStatusById(orderId, 1, itemName);
+							dataTable.setValueAt(OrderStatus.NOT_STARTED, row, col);
+							break;
+					}
+
+				}
+			}
+		});
 
 	}
 
