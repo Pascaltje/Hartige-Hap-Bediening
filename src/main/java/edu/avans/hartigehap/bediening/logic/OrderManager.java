@@ -70,32 +70,39 @@ public class OrderManager
 		dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				int row = dataTable.rowAtPoint(evt.getPoint());
-				int col = dataTable.columnAtPoint(evt.getPoint());
-				int orderId = newOrder.getId();
-				String itemName = (String) dataTable.getValueAt(row, 0);
-				LOG.log(Level.INFO, "Col = {0}", col);
-				if (row >= 0 && col >= 5) {
-					switch (dataTable.getValueAt(row, col).toString()) {
-						case "NOT_STARTED":
-							changeStatusById(orderId, 2, itemName);
-							dataTable.setValueAt(OrderStatus.STARTED, row, col);
-							break;
-						case "STARTED":
-							changeStatusById(orderId, 3, itemName);
-							dataTable.setValueAt(OrderStatus.READY, row, col);
-							break;
-						case "READY":
-							changeStatusById(orderId, 4, itemName);
-							dataTable.setValueAt(OrderStatus.FINISHED, row, col);
-							break;
-						case "FINISHED":
-							changeStatusById(orderId, 1, itemName);
-							dataTable.setValueAt(OrderStatus.NOT_STARTED, row, col);
-							break;
-					}
+				if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de status wilt aanpassen?", "WARNING",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					// yes option
+					int row = dataTable.rowAtPoint(evt.getPoint());
+					int col = dataTable.columnAtPoint(evt.getPoint());
+					int orderId = newOrder.getId();
+					String itemName = (String) dataTable.getValueAt(row, 0);
+					LOG.log(Level.INFO, "Col = {0}", col);
+					if (row >= 0 && col >= 5) {
+						switch (dataTable.getValueAt(row, col).toString()) {
+							case "NOT_STARTED":
+								changeStatusById(orderId, 2, itemName);
+								dataTable.setValueAt(OrderStatus.STARTED, row, col);
+								break;
+							case "STARTED":
+								changeStatusById(orderId, 3, itemName);
+								dataTable.setValueAt(OrderStatus.READY, row, col);
+								break;
+							case "READY":
+								changeStatusById(orderId, 4, itemName);
+								dataTable.setValueAt(OrderStatus.FINISHED, row, col);
+								break;
+							case "FINISHED":
+								changeStatusById(orderId, 1, itemName);
+								dataTable.setValueAt(OrderStatus.NOT_STARTED, row, col);
+								break;
+						}
 
+					}
+				} else {
+					// no option
 				}
+
 			}
 		});
 

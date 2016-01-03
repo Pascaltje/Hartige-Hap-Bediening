@@ -32,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -53,8 +54,8 @@ public class DetailGUI extends JDialog {
 
     public DetailGUI(Frame parent, boolean modal, final int tableNumber) {
         super(parent, modal);
-        setPreferredSize(new Dimension(700, 350));
-        setSize(750, 350);
+        setPreferredSize(new Dimension(1100, 620));
+        setSize(1150, 620);
         setUndecorated(true);
         rootPane.setBorder(BorderFactory.createEtchedBorder(Color.GRAY, null));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -76,9 +77,9 @@ public class DetailGUI extends JDialog {
         newOrder = manager.getOrderByTableNumber(tableNumber);
 
         leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
-        leftPanel.setPreferredSize(new Dimension(400, 350));
+        leftPanel.setPreferredSize(new Dimension(600, 750));
 
-        orderInfoLabel.setPreferredSize(new Dimension(350, 14));
+        orderInfoLabel.setPreferredSize(new Dimension(550, 14));
         leftPanel.add(orderInfoLabel);
 
         infoTable.setModel(new DefaultTableModel(
@@ -94,13 +95,13 @@ public class DetailGUI extends JDialog {
                         }
         ));
 
-        infoTable.setPreferredSize(new Dimension(350, 64));
-        infoScrollPane.setPreferredSize(new Dimension(350, 42));
+        infoTable.setPreferredSize(new Dimension(550, 64));
+        infoScrollPane.setPreferredSize(new Dimension(550, 42));
         infoScrollPane.setViewportView(infoTable);
         infoScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         leftPanel.add(infoScrollPane);
 
-        orderDataLabel.setPreferredSize(new Dimension(350, 30));
+        orderDataLabel.setPreferredSize(new Dimension(550, 30));
         leftPanel.add(orderDataLabel);
 
         dataTable.setModel(new DefaultTableModel(new Object[][]{},
@@ -109,14 +110,14 @@ public class DetailGUI extends JDialog {
                                 "Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
                         }
         ));
-        dataScrollPane.setPreferredSize(new Dimension(350, 190));
+        dataScrollPane.setPreferredSize(new Dimension(550, 350));
         dataScrollPane.setViewportView(dataTable);
         leftPanel.add(dataScrollPane);
 
         rightPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
-        rightPanel.setPreferredSize(new Dimension(300, 350));
+        rightPanel.setPreferredSize(new Dimension(550, 250));
 
-        orderFoodLabel.setPreferredSize(new Dimension(250, 14));
+        orderFoodLabel.setPreferredSize(new Dimension(500, 14));
         rightPanel.add(orderFoodLabel);
 
         foodTable.setModel(new DefaultTableModel(
@@ -130,10 +131,10 @@ public class DetailGUI extends JDialog {
                         }
         ));
         foodScrollPane.setViewportView(foodTable);
-        foodScrollPane.setPreferredSize(new Dimension(250, 230));
+        foodScrollPane.setPreferredSize(new Dimension(500, 390));
         rightPanel.add(foodScrollPane);
         exitPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        exitPanel.setPreferredSize(new Dimension(250, 38));
+        exitPanel.setPreferredSize(new Dimension(300, 38));
         exitPanel.setLayout(new BorderLayout());
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -153,6 +154,9 @@ public class DetailGUI extends JDialog {
         rightPanel.add(exitPanel);
         getContentPane().add(leftPanel, BorderLayout.WEST);
         getContentPane().add(rightPanel, BorderLayout.EAST);
+
+
+
         if (dataTable.getRowCount() > 0) {
             manager.checkStatus(dataTable, newOrder);
 

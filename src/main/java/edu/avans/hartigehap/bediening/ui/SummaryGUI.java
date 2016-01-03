@@ -60,28 +60,31 @@ public class SummaryGUI extends JFrame {
                 break;
             }
         }
-        setSize(800, 500);
+        setSize(1200, 700);
         setLocationRelativeTo(null);
-        getContentPane().setPreferredSize(new Dimension(800, 500));
+        getContentPane().setPreferredSize(new Dimension(1200, 700));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JPanel leftPanel = new JPanel();
         JPanel rightPanel = new JPanel();
         JPanel tablesPanel = new JPanel();
         JLabel tableOverviewLabel = new JLabel("Tafeloverzicht");
         JLabel mealOverviewLabel = new JLabel("Te serveren gerechten");
+        JLabel drinkOverviewLabel = new JLabel("Te serveren drankjes");
         JScrollPane foodScrollPane = new JScrollPane();
+        JScrollPane drinkScrollPane = new JScrollPane();
         JTable foodTable = new JTable();
+        JTable drinkTable = new JTable();
         setLayout(new BorderLayout(5, 5));
 
         leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
-        leftPanel.setPreferredSize(new Dimension(500, 400));
+        leftPanel.setPreferredSize(new Dimension(800, 700));
         button = new JButton[13];
-        tableOverviewLabel.setPreferredSize(new Dimension(450, 14));
+        tableOverviewLabel.setPreferredSize(new Dimension(750, 14));
         leftPanel.add(tableOverviewLabel);
 
         tablesPanel.setBackground(Color.WHITE);
         tablesPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        tablesPanel.setPreferredSize(new Dimension(450, 350));
+        tablesPanel.setPreferredSize(new Dimension(750, 575));
         tablesPanel.setLayout(new GridLayout(4, 3, 20, 20));
         for (int i = 1; i < 13; i++) {
             button[i] = new JButton("Tafel " + i);
@@ -99,13 +102,13 @@ public class SummaryGUI extends JFrame {
         leftPanel.add(tablesPanel);
 
         rightPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
-        rightPanel.setPreferredSize(new Dimension(300, 450));
+        rightPanel.setPreferredSize(new Dimension(400, 450));
 
-        mealOverviewLabel.setPreferredSize(new Dimension(250, 14));
+        mealOverviewLabel.setPreferredSize(new Dimension(350, 14));
         rightPanel.add(mealOverviewLabel);
 
         foodScrollPane.setBackground(Color.WHITE);
-        foodScrollPane.setPreferredSize(new Dimension(250, 150));
+        foodScrollPane.setPreferredSize(new Dimension(350, 250));
 
         foodTable.setModel(new DefaultTableModel(
                 new Object[][]
@@ -121,6 +124,28 @@ public class SummaryGUI extends JFrame {
         ));
         foodScrollPane.setViewportView(foodTable);
         rightPanel.add(foodScrollPane);
+
+
+        drinkOverviewLabel.setPreferredSize(new Dimension(350, 14));
+        rightPanel.add(drinkOverviewLabel);
+
+        drinkScrollPane.setBackground(Color.WHITE);
+        drinkScrollPane.setPreferredSize(new Dimension(350, 250));
+
+        drinkTable.setModel(new DefaultTableModel(
+                new Object[][]
+                        {
+                                {
+                                        null, null, null
+                                }
+                        },
+                new String[]
+                        {
+                                "Tafel", "Drankje","Aantal", "Status"
+                        }
+        ));
+        drinkScrollPane.setViewportView(drinkTable);
+        rightPanel.add(drinkScrollPane);
 
         getContentPane().add(leftPanel, BorderLayout.WEST);
         getContentPane().add(rightPanel, BorderLayout.EAST);
