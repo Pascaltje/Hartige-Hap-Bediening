@@ -61,30 +61,46 @@ public class DetailOrderTableModel extends DefaultTableModel
 			{
 				List<OrderDetail> drinks = new ArrayList<>();
 				Order newOrder = orderManager.getOrderByTableNumber(tableNumber);
-				orderItems = newOrder.getOrderDetails();
-				for (OrderDetail drink : orderItems)
-				{
-					if("Drankjes".equals(drink.getCourseName()))
-					{
-						drinks.add(drink);
+				if (newOrder != null) {
+					orderItems = newOrder.getOrderDetails();
+					for (OrderDetail drink : orderItems) {
+						if ("Drankjes".equals(drink.getCourseName())) {
+							drinks.add(drink);
+						}
 					}
+					DecimalFormat decimalFormat = new DecimalFormat("0.00");
+					Object[][] data = new Object[drinks.size()][5];
+					String[] columns = new String[]
+							{
+									"Naam", "EmployeeId", "Aantal", "Prijs", "Beschrijving", "Status"
+							};
+					for (int i = 0; i < drinks.size(); i++) {
+						OrderDetail orderItem = drinks.get(i);
+						data[i] = new Object[]
+								{
+										orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
+								};
+					}
+					DetailOrderTableModel.this.setDataVector(data, columns);
+					DetailOrderTableModel.this.fireTableDataChanged();
 				}
-				DecimalFormat decimalFormat = new DecimalFormat("0.00");
-				Object[][] data = new Object[drinks.size()][5];
-				String[] columns = new String[]
-				{
-					"Naam", "EmployeeId", "Aantal", "Prijs", "Beschrijving", "Status"
-				};
-				for (int i = 0; i < drinks.size(); i++)
-				{
-					OrderDetail orderItem = drinks.get(i);
-					data[i] = new Object[]
-					{
-						orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
-					};
+				else{
+					DecimalFormat decimalFormat = new DecimalFormat("0.00");
+					Object[][] data = new Object[drinks.size()][5];
+					String[] columns = new String[]
+							{
+									"Naam", "EmployeeId", "Aantal", "Prijs", "Beschrijving", "Status"
+							};
+					for (int i = 0; i < drinks.size(); i++) {
+						OrderDetail orderItem = drinks.get(i);
+						data[i] = new Object[]
+								{
+
+								};
+					}
+					DetailOrderTableModel.this.setDataVector(data, columns);
+					DetailOrderTableModel.this.fireTableDataChanged();
 				}
-				DetailOrderTableModel.this.setDataVector(data, columns);
-				DetailOrderTableModel.this.fireTableDataChanged();
 			}
 		}, 0, 10000);
 

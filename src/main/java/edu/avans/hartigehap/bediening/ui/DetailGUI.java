@@ -72,6 +72,7 @@ public class DetailGUI extends JDialog {
         JScrollPane dataScrollPane = new JScrollPane();
         JScrollPane foodScrollPane = new JScrollPane();
         JButton backButton = new JButton("Terug");
+        JButton paidButton = new JButton("Bestelling afronden");
 
         manager = OrderManager.getInstance();
         newOrder = manager.getOrderByTableNumber(tableNumber);
@@ -142,13 +143,24 @@ public class DetailGUI extends JDialog {
                 back();
             }
         });
+
+            leftPanel.add(paidButton);
+
+
         if (newOrder != null) {
-            OrderTableModel order = new OrderTableModel(newOrder);
+            OrderTableModel order = new OrderTableModel(newOrder,manager);
             infoTable.setModel(order);
             DetailOrderTableModel drinks = new DetailOrderTableModel(manager, tableNumber);
             dataTable.setModel(drinks);
             MealTableModel meals = new MealTableModel(manager, tableNumber);
             foodTable.setModel(meals);
+
+            paidButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent actionEvent) {
+                    manager.setOrderPaid(newOrder.getId());
+                    JOptionPane.showMessageDialog (null, "De bestelling is afgerond", "Title", JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
         }
         exitPanel.add(backButton, BorderLayout.PAGE_END);
         rightPanel.add(exitPanel);

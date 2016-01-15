@@ -98,6 +98,22 @@ public class OrderDAO {
 
     }
 
+    public void setOrderPaid(int orderNo) {
+        DatabaseConnection connection = new DatabaseConnection();
+        if (connection.open()) {
+            try {
+                PreparedStatement statement = connection.createStatement("UPDATE dhh_order set paymentStatus = ? where orderNo = ? ");
+                statement.setString(1, "PAID");
+                statement.setInt(2, orderNo);
+                statement.execute();
+            } catch (SQLException exception) {
+                Logger.getLogger(OrderDAO.class.getSimpleName()).log(Level.SEVERE, null, exception);
+            }
+            connection.close();
+        }
+
+    }
+
 
     public ArrayList<Order> getOrderStatus() {
         ArrayList<Order> orders = new ArrayList<>();

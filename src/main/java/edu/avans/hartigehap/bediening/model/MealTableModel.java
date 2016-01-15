@@ -57,35 +57,51 @@ public class MealTableModel extends DefaultTableModel
 		timer.schedule(new TimerTask()
 		{
 			@Override
-			public void run()
-			{
+			public void run() {
 				List<OrderDetail> meals = new ArrayList<>();
 				Order newOrder = orderManager.getOrderByTableNumber(tableNumber);
-				orderItems = newOrder.getOrderDetails();
-				for (OrderDetail meal : orderItems)
-				{
-					if(!"Drankjes".equals(meal.getCourseName()))
-					{
-						meals.add(meal);
+				if (newOrder != null) {
+					orderItems = newOrder.getOrderDetails();
+					for (OrderDetail meal : orderItems) {
+						if (!"Drankjes".equals(meal.getCourseName())) {
+							meals.add(meal);
+						}
 					}
+					DecimalFormat decimalFormat = new DecimalFormat("0.00");
+					Object[][] data = new Object[meals.size()][5];
+					String[] columns = new String[]
+							{
+									"Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
+							};
+					for (int i = 0; i < meals.size(); i++) {
+						OrderDetail orderItem = meals.get(i);
+						data[i] = new Object[]
+								{
+										orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
+								};
+					}
+					MealTableModel.this.setDataVector(data, columns);
+					MealTableModel.this.fireTableDataChanged();
 				}
-				DecimalFormat decimalFormat = new DecimalFormat("0.00");
-				Object[][] data = new Object[meals.size()][5];
-				String[] columns = new String[]
-				{
-						"Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
-				};
-				for (int i = 0; i < meals.size(); i++)
-				{
-					OrderDetail orderItem = meals.get(i);
-					data[i] = new Object[]
-					{
-							orderItem.getItemName(), orderItem.getEmployeeId(), orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
-					};
+				else{
+					DecimalFormat decimalFormat = new DecimalFormat("0.00");
+					Object[][] data = new Object[meals.size()][5];
+					String[] columns = new String[]
+							{
+									"Naam", "EmployeeId", "Antal", "Prijs", "Beschrijving", "Status"
+							};
+					for (int i = 0; i < meals.size(); i++) {
+						OrderDetail orderItem = meals.get(i);
+						data[i] = new Object[]
+								{
+
+								};
+					}
+					MealTableModel.this.setDataVector(data, columns);
+					MealTableModel.this.fireTableDataChanged();
 				}
-				MealTableModel.this.setDataVector(data, columns);
-				MealTableModel.this.fireTableDataChanged();
 			}
+
 		}, 0, 10000);
 
 	}

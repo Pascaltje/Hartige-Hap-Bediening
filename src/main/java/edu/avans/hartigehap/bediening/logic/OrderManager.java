@@ -73,18 +73,26 @@ public class OrderManager
 		return orderDAO.getAllOrders();
 
 	}
+	public void setOrderPaid(int orderNo)
+	{
+		if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de bestelling wil afronden?", "WARNING",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			orderDAO.setOrderPaid(orderNo);
+		}
+		else{
+
+		}
+	}
 
 	public void checkStatus(JTable dataTable, Order newOrder) {
 		dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
-			System.out.println(newOrder.getId());
 					// yes option
 					int row = dataTable.rowAtPoint(evt.getPoint());
 					int col = dataTable.columnAtPoint(evt.getPoint());
 					int orderId = newOrder.getId();
 				    int colCount = dataTable.getColumnCount() - 1;
-					System.out.println("row = " + row + "col = " + col + "orderId = " + orderId + "colcount =" + colCount);
 					String itemName = (String) dataTable.getValueAt(row, 0);
 					LOG.log(Level.INFO, "Col = {0}", col);
 
