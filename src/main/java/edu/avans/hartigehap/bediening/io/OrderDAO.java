@@ -132,4 +132,50 @@ public class OrderDAO {
         }
         return orders;
     }
+
+    public ArrayList<Order> getAllOrders(){
+        ArrayList<Order> orders = new ArrayList<>();
+
+        DatabaseConnection connection = new DatabaseConnection();
+        if (connection.open()) {
+            try {
+                PreparedStatement statement = connection.createStatement("SELECT * FROM dhh_order where paymentStatus in (?,?) ");
+
+                statement.setString(1, "NOT_PAID");
+                statement.setString(2,"WANTS_TO_PAY");
+                ResultSet resultSet = connection.execute(statement);
+                if (resultSet != null) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("orderNo");
+                        String paymentStatus = resultSet.getString("paymentStatus");
+                        int tableNo = resultSet.getInt("TABLEtableNo");
+                        Date date = resultSet.getDate("orderDatetime");
+                        Date dt = new java.util.Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String currentTime = sdf.format(date);
+                        Order newOrder = new Order(id, 1, PaymentStatus.valueOf(resultSet.getString("paymentStatus")), currentTime, 20.00, tableNo);
+
+                        PreparedStatement subStament = connection.createStatement("SELECT dhh_orderitem . * ,dhh_item.COURSEcourseName as coursename, dhh_item.Price * dhh_orderitem.amount AS Itemtotalprice FROM dhh_orderitem, dhh_item WHERE ORDERorderNo = ? AND dhh_orderitem.ITEMitemName = dhh_item.itemName AND dhh_orderitem.orderStatus < ?");
+                        subStament.setInt(1,newOrder.getId());
+                        subStament.setInt(2,4);
+                        ResultSet subResultSet = connection.execute(subStament);
+                        if (subResultSet != null) {
+                            while (subResultSet.next()) {
+                                OrderDetail orderDetails = new OrderDetail(subResultSet.getInt("ORDERorderNo"), OrderStatus.values()[subResultSet.getInt("orderStatus") - 1], subResultSet.getInt("EMPLOYEEemployeeid"), subResultSet.getInt("amount"), subResultSet.getString("description"), subResultSet.getString("ITEMitemName"), subResultSet.getDouble("Itemtotalprice"), subResultSet.getString("coursename"));
+                                newOrder.addOrderDetail(orderDetails);
+
+                            }
+                        }
+                        orders.add(newOrder);
+                    }
+
+                }
+            } catch (SQLException exception) {
+                Logger.getLogger(OrderDAO.class.getSimpleName()).log(Level.SEVERE, null, exception);
+            }
+            connection.close();
+        }
+
+        return orders;
+    }
 }

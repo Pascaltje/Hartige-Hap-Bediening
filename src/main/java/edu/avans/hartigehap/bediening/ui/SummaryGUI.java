@@ -16,8 +16,9 @@
  */
 package edu.avans.hartigehap.bediening.ui;
 
+import edu.avans.hartigehap.bediening.logic.OrderManager;
 import edu.avans.hartigehap.bediening.logic.TableManager;
-import edu.avans.hartigehap.bediening.model.Order;
+import edu.avans.hartigehap.bediening.model.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -46,8 +47,11 @@ import javax.swing.table.DefaultTableModel;
  * @author David
  */
 public class SummaryGUI extends JFrame {
-    private TableManager tableManager = TableManager.getInstance();
+    private TableManager tableManager;
     private JButton[] button;
+    private OrderManager orderManager;
+    private int orderId;
+    private ArrayList<Order> newOrders;
 
     public SummaryGUI() {
         for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -60,6 +64,9 @@ public class SummaryGUI extends JFrame {
                 break;
             }
         }
+        tableManager = TableManager.getInstance();
+        orderManager = orderManager.getInstance();
+        newOrders = orderManager.getAllOrders();
         setSize(1200, 700);
         setLocationRelativeTo(null);
         getContentPane().setPreferredSize(new Dimension(1200, 700));
@@ -141,11 +148,19 @@ public class SummaryGUI extends JFrame {
                         },
                 new String[]
                         {
-                                "Tafel", "Drankje","Aantal", "Status"
+                                "Tafel", "Drankje", "Aantal", "Status"
                         }
         ));
         drinkScrollPane.setViewportView(drinkTable);
         rightPanel.add(drinkScrollPane);
+
+        if (!newOrders.isEmpty()) {
+            SimpleDrinkTableModel drinks = new SimpleDrinkTableModel(orderManager, newOrders);
+            drinkTable.setModel(drinks);
+            SimpleMealTableModel meals = new SimpleMealTableModel(orderManager, newOrders);
+            foodTable.setModel(meals);
+        }
+
 
         getContentPane().add(leftPanel, BorderLayout.WEST);
         getContentPane().add(rightPanel, BorderLayout.EAST);
@@ -158,6 +173,19 @@ public class SummaryGUI extends JFrame {
                 changeColor(tableManager.changeTableColor());
             }
         }, 0, 10000);
+ //TODO status change for main Jtables
+//        if (drinkTable.getRowCount() > 0) {
+//            for (Order order : newOrders) {
+//                orderManager.checkStatus(drinkTable, order);
+//            }
+//
+//
+//        }
+//        if (foodTable.getRowCount() > 0) {
+//            for (Order order : newOrders) {
+//                orderManager.checkStatus(foodTable, order);
+//            }
+//        }
     }
 
     private void changeColor(ArrayList<Order> orders) {

@@ -20,7 +20,6 @@ import edu.avans.hartigehap.bediening.io.OrderDAO;
 import edu.avans.hartigehap.bediening.model.Order;
 
 import java.util.*;
-import java.util.jar.Pack200;
 
 /**
  * @author David
@@ -44,14 +43,13 @@ public class TableManager {
 
 
     public ArrayList<Order> changeTableColor() {
-
         OrderDAO orderDao = new OrderDAO();
         return orderDao.getOrderStatus();
 
 
     }
 
-    public HashMap returnTableStatus(HashMap<Integer, String> map) {
-        return map;
-    }
+//    public HashMap returnTableStatus(HashMap<Integer, String> map) {
+//        return map;
+//    }
 }

@@ -143,10 +143,10 @@ public class DetailGUI extends JDialog {
             }
         });
         if (newOrder != null) {
-            OrderTableModel model = new OrderTableModel(newOrder);
-            infoTable.setModel(model);
-            DetailOrderTableModel model1 = new DetailOrderTableModel(manager, tableNumber);
-            dataTable.setModel(model1);
+            OrderTableModel order = new OrderTableModel(newOrder);
+            infoTable.setModel(order);
+            DetailOrderTableModel drinks = new DetailOrderTableModel(manager, tableNumber);
+            dataTable.setModel(drinks);
             MealTableModel meals = new MealTableModel(manager, tableNumber);
             foodTable.setModel(meals);
         }
@@ -154,7 +154,6 @@ public class DetailGUI extends JDialog {
         rightPanel.add(exitPanel);
         getContentPane().add(leftPanel, BorderLayout.WEST);
         getContentPane().add(rightPanel, BorderLayout.EAST);
-
 
 
         if (dataTable.getRowCount() > 0) {

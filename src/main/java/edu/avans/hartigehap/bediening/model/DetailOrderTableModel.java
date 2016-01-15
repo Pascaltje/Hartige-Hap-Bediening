@@ -18,6 +18,7 @@ public class DetailOrderTableModel extends DefaultTableModel
 
 	private List<OrderDetail> orderItems;
 
+
 	public DetailOrderTableModel(OrderManager orderManager, int tableNumber)
 	{
 		List<OrderDetail> drinks = new ArrayList<>();
