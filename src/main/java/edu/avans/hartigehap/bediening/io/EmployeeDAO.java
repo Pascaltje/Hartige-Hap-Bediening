@@ -16,6 +16,14 @@
  */
 package edu.avans.hartigehap.bediening.io;
 
+import edu.avans.hartigehap.bediening.model.Employee;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author David
@@ -23,4 +31,42 @@ package edu.avans.hartigehap.bediening.io;
 public class EmployeeDAO
 {
 
+    public Employee CheckLogin(String Email){
+        Employee Employee = null;
+        DatabaseConnection connection = new DatabaseConnection();
+        if (connection.open()) {
+            try {
+                PreparedStatement statement = connection.createStatement("select * from dhh_employee where dhh_employee.email = ?");
+                statement.setString(1, Email);
+                ResultSet resultSet = connection.execute(statement);
+                if (resultSet != null) {
+                     while (resultSet.next()) {
+                        int employeeId = resultSet.getInt("employeeId");
+                        String firstName = resultSet.getString("firstName");
+                        String lastName = resultSet.getString("lastName");
+                        String birthday = resultSet.getString("birthday");
+                        Double salary = resultSet.getDouble("salary");
+                        String address = resultSet.getString("address");
+                        String postalCode = resultSet.getString("postalCode");
+                        String email = resultSet.getString("email");
+                        String phoneNo = ""; //resultSet.getString("phoneNo");
+                        String joinDate = "";
+                        String EMPLOYEEFUNCTIONfunctionName = resultSet.getString("EMPLOYEEFUNCTIONfunctionName");
+                         
+                         
+                         Employee = new Employee(employeeId, firstName, lastName, birthday, address, salary, joinDate, EMPLOYEEFUNCTIONfunctionName, email);
+                         
+                         
+                     }
+                }
+
+                
+                
+            }catch (SQLException exception){
+                Logger.getLogger(OrderDAO.class.getSimpleName()).log(Level.SEVERE, null, exception);
+            }  
+        
+        }
+    return Employee;   
+    }   
 }

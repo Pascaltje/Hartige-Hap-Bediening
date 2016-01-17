@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +35,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -75,7 +79,9 @@ public class SummaryGUI extends JFrame {
         JTable foodTable = new JTable();
         JTable drinkTable = new JTable();
         setLayout(new BorderLayout(5, 5));
-
+        BuildMenuBar();
+        
+        
         leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 10, 10));
         leftPanel.setPreferredSize(new Dimension(800, 700));
         button = new JButton[13];
@@ -159,6 +165,42 @@ public class SummaryGUI extends JFrame {
             }
         }, 0, 10000);
     }
+    
+     public void BuildMenuBar(){
+        JMenuBar menubar = new JMenuBar();
+
+        JMenu file = new JMenu("File");
+        file.setMnemonic(KeyEvent.VK_F);
+
+        JMenuItem MenuLogin = new JMenuItem("Login");
+        MenuLogin.setMnemonic(KeyEvent.VK_E);
+        MenuLogin.setToolTipText("Login!");
+        MenuLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                employeeGUI employeeGUI = new employeeGUI();
+            }
+        });
+
+        JMenuItem eMenuItem = new JMenuItem("Exit");
+        eMenuItem.setMnemonic(KeyEvent.VK_E);
+        eMenuItem.setToolTipText("Exit application");
+        eMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+        
+        
+        file.add(MenuLogin);
+        file.add(eMenuItem);
+        
+        menubar.add(file);
+        setJMenuBar(menubar);
+        
+    }
+    
 
     private void changeColor(ArrayList<Order> orders) {
         for (int i = 1; i < button.length; i++) {

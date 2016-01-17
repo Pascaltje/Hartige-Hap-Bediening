@@ -16,13 +16,17 @@
  */
 package edu.avans.hartigehap.bediening.logic;
 
+import edu.avans.hartigehap.bediening.io.EmployeeDAO;
+import edu.avans.hartigehap.bediening.model.Employee;
+import java.util.ArrayList;
+
 /**
  *
  * @author David
  */
 public class EmployeeManager
 {
-
+        ArrayList<Employee> EmployeeList = new ArrayList<Employee>();
 	private static EmployeeManager instance = null;
 
 	public static EmployeeManager getInstance()
@@ -41,4 +45,35 @@ public class EmployeeManager
 	{
 
 	}
+        
+        public Employee Login(String Email){
+            EmployeeDAO EmployeeDAO = new EmployeeDAO();
+            Employee Employee = EmployeeDAO.CheckLogin(Email);
+            if(Employee!=null){
+                
+                for(Employee Listemployee : EmployeeList ){
+                    if(Listemployee.getEmail().equals(Employee.getEmail())){
+                        Employee = null;
+                    }
+                }
+                
+                if(Employee!=null){
+                    EmployeeList.add(Employee); 
+                }
+            }
+            return Employee;
+        }
+        
+        public void Loguit(String Name){
+            for(Employee Listemployee : EmployeeList ){
+                if((Listemployee.getFirstName() + " " + Listemployee.getLastName()).equals(Name)){
+                    EmployeeList.remove(Listemployee);
+                }
+            }
+        }
+        
+        public ArrayList<Employee> getEmployee(){
+            return EmployeeList;
+        }
+        
 }

@@ -16,6 +16,8 @@
  */
 package edu.avans.hartigehap.bediening.model;
 
+import java.util.Date;
+
 /**
  *
  * @author David Verhaak
@@ -26,9 +28,7 @@ public class Employee
 
 	private int id;
 	private String firstName;
-	private String middleName;
 	private String lastName;
-	private String password;
 	private String birthday;
 	private String address;
 	private double salary;
@@ -36,13 +36,11 @@ public class Employee
 	private String function;
 	private String email;
 
-	public Employee(int id, String firstName, String middleName, String lastName, String password, String birthday, String address, double salary, String dateStarted, String function, String email)
+	public Employee(int id, String firstName,  String lastName, String birthday, String address, double salary, String dateStarted, String function, String email)
 	{
 		this.id = id;
 		this.firstName = firstName;
-		this.middleName = middleName;
 		this.lastName = lastName;
-		this.password = password;
 		this.birthday = birthday;
 		this.address = address;
 		this.salary = salary;
@@ -71,16 +69,6 @@ public class Employee
 		this.firstName = firstName;
 	}
 
-	public String getMiddleName()
-	{
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName)
-	{
-		this.middleName = middleName;
-	}
-
 	public String getLastName()
 	{
 		return lastName;
@@ -89,16 +77,6 @@ public class Employee
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
-	}
-
-	public String getPassword()
-	{
-		return password;
-	}
-
-	public void setPassword(String password)
-	{
-		this.password = password;
 	}
 
 	public String getBirthday()
