@@ -16,11 +16,14 @@
  */
 package edu.avans.hartigehap.bediening.logic;
 
+import edu.avans.hartigehap.bediening.io.DatabaseConnection;
 import edu.avans.hartigehap.bediening.io.OrderDAO;
 import edu.avans.hartigehap.bediening.model.Order;
+import edu.avans.hartigehap.bediening.model.OrderDetail;
 import edu.avans.hartigehap.bediening.model.OrderStatus;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,19 +69,36 @@ public class OrderManager
 
 	}
 
+	public ArrayList<Order> getAllOrders(){
+		return orderDAO.getAllOrders();
+
+	}
+	public void setOrderPaid(int orderNo)
+	{
+		if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de bestelling wil afronden?", "WARNING",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			orderDAO.setOrderPaid(orderNo);
+		}
+		else{
+
+		}
+	}
+
 	public void checkStatus(JTable dataTable, Order newOrder) {
 		dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de status wilt aanpassen?", "WARNING",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					// yes option
 					int row = dataTable.rowAtPoint(evt.getPoint());
 					int col = dataTable.columnAtPoint(evt.getPoint());
 					int orderId = newOrder.getId();
+				    int colCount = dataTable.getColumnCount() - 1;
 					String itemName = (String) dataTable.getValueAt(row, 0);
 					LOG.log(Level.INFO, "Col = {0}", col);
-					if (row >= 0 && col >= 5) {
+
+					if (row >= 0 && col >= colCount) {
+						if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de status wilt aanpassen?", "WARNING",
+								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						switch (dataTable.getValueAt(row, col).toString()) {
 							case "NOT_STARTED":
 								changeStatusById(orderId, 2, itemName);
