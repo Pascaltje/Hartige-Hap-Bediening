@@ -17,7 +17,11 @@ public class MealTableModel extends DefaultTableModel
 {
 
 	private List<OrderDetail> orderItems;
-
+	/* populates the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public MealTableModel(OrderManager orderManager, int tableNumber)
 	{
 		ArrayList<OrderDetail> meals = new ArrayList<>();
@@ -50,7 +54,11 @@ public class MealTableModel extends DefaultTableModel
 		refreshOrders(orderManager, tableNumber);
 
 	}
-
+	/* refreshes the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public void refreshOrders(OrderManager orderManager, int tableNumber)
 	{
 		Timer timer = new Timer();

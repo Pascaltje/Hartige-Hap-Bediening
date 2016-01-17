@@ -56,9 +56,9 @@ public class employeeGUI extends JFrame{
         bt.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
-               Employee Employee = EmployeeManager.Login(txtEmail.getText());
-               if(Employee!=null){
-                   EmplayersListModel.addElement(Employee.getFirstName() + " " + Employee.getLastName());
+               Employee employee = EmployeeManager.logIn(txtEmail.getText());
+               if(employee!=null){
+                   EmplayersListModel.addElement(employee.getFirstName() + " " + employee.getLastName());
                            
                    
                }else{
@@ -92,7 +92,7 @@ public class employeeGUI extends JFrame{
         bt.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae) {
-                EmployeeManager.Loguit((String) EmplayersList.getSelectedValue());
+                EmployeeManager.logOut((String) EmplayersList.getSelectedValue());
                 EmplayersListModel.remove(EmplayersList.getSelectedIndex());
             }
         });
@@ -105,8 +105,8 @@ public class employeeGUI extends JFrame{
     }
     
     private void AddLoggedidUsers(){
-        ArrayList<Employee> Users = EmployeeManager.getEmployee();
-        for(Employee employee : Users ){
+        ArrayList<Employee> users = EmployeeManager.getEmployee();
+        for(Employee employee : users ){
              EmplayersListModel.addElement(employee.getFirstName() + " " + employee.getLastName());
         }
     }

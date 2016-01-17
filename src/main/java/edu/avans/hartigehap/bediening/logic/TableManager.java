@@ -41,7 +41,9 @@ public class TableManager {
 
     }
 
-
+    /* Get all the orders and changes the color from a table in the GUI based on a status
+     *@return ArrayList<Order>
+      */
     public ArrayList<Order> changeTableColor() {
         OrderDAO orderDao = new OrderDAO();
         return orderDao.getOrderStatus();

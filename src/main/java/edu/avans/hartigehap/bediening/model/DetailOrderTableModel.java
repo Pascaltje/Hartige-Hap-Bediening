@@ -18,7 +18,11 @@ public class DetailOrderTableModel extends DefaultTableModel
 
 	private List<OrderDetail> orderItems;
 
-
+	/* populates the JTable with the correct order data
+               *@param tableNumber int
+                *@param orderManager OrderManager
+                *@return void
+               */
 	public DetailOrderTableModel(OrderManager orderManager, int tableNumber)
 	{
 		List<OrderDetail> drinks = new ArrayList<>();
@@ -50,7 +54,11 @@ public class DetailOrderTableModel extends DefaultTableModel
 		this.fireTableDataChanged();
 		refreshOrders(orderManager, tableNumber);
 	}
-
+	/* refreshes the JTable with the correct order data
+                   *@param tableNumber int
+                    *@param orderManager OrderManager
+                    *@return void
+                   */
 	public void refreshOrders(OrderManager orderManager, int tableNumber)
 	{
 		Timer timer = new Timer();

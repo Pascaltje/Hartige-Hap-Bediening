@@ -15,7 +15,11 @@ import java.util.TimerTask;
 public class OrderTableModel extends DefaultTableModel
 {
 
-
+	/* populates the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public OrderTableModel(Order order,OrderManager manager)
 	{
 		DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -35,7 +39,11 @@ public class OrderTableModel extends DefaultTableModel
 	}
 
 
-
+	/* refreshes the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public void refreshOrders(OrderManager manager, int tableNumber)
 	{
 		Timer timer = new Timer();

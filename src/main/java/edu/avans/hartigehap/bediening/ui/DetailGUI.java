@@ -144,11 +144,10 @@ public class DetailGUI extends JDialog {
             }
         });
 
-            leftPanel.add(paidButton);
-
+        leftPanel.add(paidButton);
 
         if (newOrder != null) {
-            OrderTableModel order = new OrderTableModel(newOrder,manager);
+            OrderTableModel order = new OrderTableModel(newOrder, manager);
             infoTable.setModel(order);
             DetailOrderTableModel drinks = new DetailOrderTableModel(manager, tableNumber);
             dataTable.setModel(drinks);
@@ -157,9 +156,9 @@ public class DetailGUI extends JDialog {
 
             paidButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent actionEvent) {
-                    if(newOrder.getPaymentStatus().toString().equals("WANTS_TO_PAY")){
+                    if (newOrder.getPaymentStatus().toString().equals("WANTS_TO_PAY")) {
                         manager.setOrderPaid(newOrder.getId());
-                        JOptionPane.showMessageDialog (null, "De bestelling is afgerond", "Title", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "De bestelling is afgerond", "Title", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 }

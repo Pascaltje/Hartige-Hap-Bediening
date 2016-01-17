@@ -17,38 +17,45 @@
 package edu.avans.hartigehap.bediening.model;
 
 /**
- *
  * @author David
  */
-public class Table
-{
+public class Table {
 
-	private int tableNumber;
-	private int seats;
+    private int tableNumber;
+    private int seats;
 
-	public Table(int tableNumber, int seats)
-	{
-		this.tableNumber = tableNumber;
-		this.seats = seats;
-	}
+    public Table(int tableNumber, int seats) {
+        this.tableNumber = tableNumber;
+        this.seats = seats;
+    }
 
-	public int getTableNumber()
-	{
-		return tableNumber;
-	}
+    /* get the number of the table
+     *@return int
+     */
+    public int getTableNumber() {
+        return tableNumber;
+    }
 
-	public void setTableNumber(int tableNumber)
-	{
-		this.tableNumber = tableNumber;
-	}
+    /* set the number of the table
+    *@param tableNumber int
+   *@return int
+   */
+    public void setTableNumber(int tableNumber) {
+        this.tableNumber = tableNumber;
+    }
 
-	public int getSeats()
-	{
-		return seats;
-	}
+    /* gets the seats from a table
+     *@return int
+     */
+    public int getSeats() {
+        return seats;
+    }
 
-	public void setSeats(int seats)
-	{
-		this.seats = seats;
-	}
+    /* sets the seats from a table
+    *@param seats int
+    *@return int
+    */
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
 }

@@ -33,7 +33,10 @@ import java.util.logging.Logger;
  * @author David
  */
 public class OrderDAO {
-
+    /*Gets the order from the database with the same tablenumber
+       *@param tableNumber int
+       *@return order
+       */
     public Order getOrderByTableNumber(int tableNumber) {
 
         Order order = null;
@@ -77,7 +80,12 @@ public class OrderDAO {
         return order;
 
     }
-
+         /* Changes the status from an orderLine with matching parameters
+          *@param orderId int
+          *@param newStatus String
+          *@param itemName String
+          *@return void
+          */
     public void changeStatusById(int orderId, String newStatus, String itemName) {
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
@@ -94,7 +102,10 @@ public class OrderDAO {
         }
 
     }
-
+    /* Set the order status from an order to PAID
+         *@param orderNo int
+         *@return void
+         */
     public void setOrderPaid(int orderNo) {
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
@@ -111,7 +122,10 @@ public class OrderDAO {
 
     }
 
-
+    /* Gets all the order where the status is NOT_PAID and WANTS_TO_PAY
+             *
+             *@return ArrayList<Order>
+             */
     public ArrayList<Order> getOrderStatus() {
         ArrayList<Order> orders = new ArrayList<>();
 
@@ -145,7 +159,10 @@ public class OrderDAO {
         }
         return orders;
     }
-
+    /* Get all the order from the database where the status is NOT_PAID and WANTS_TO_PAY
+             *
+             *@return ArrayList<Order>
+             */
     public ArrayList<Order> getAllOrders(){
         ArrayList<Order> orders = new ArrayList<>();
 

@@ -48,22 +48,38 @@ public class Employee
 		this.function = function;
 		this.email = email;
 	}
-
+	/* refreshes the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public int getId()
 	{
 		return id;
 	}
-
+	/* refreshes the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public void setId(int id)
 	{
 		this.id = id;
 	}
-
+	/* refreshes the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public String getFirstName()
 	{
 		return firstName;
 	}
-
+	/* refreshes the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
 	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;

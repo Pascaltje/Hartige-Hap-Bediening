@@ -13,7 +13,11 @@ public class SimpleDrinkTableModel extends DefaultTableModel {
     private ArrayList<OrderDetail> orderItems;
     private ArrayList<Order> orders;
 
-
+    /* populates the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
     public SimpleDrinkTableModel(OrderManager orderManager, ArrayList<Order> orders1) {
         ArrayList<OrderDetail> drinks = new ArrayList<>();
         orderItems = new ArrayList<>();
@@ -50,7 +54,11 @@ public class SimpleDrinkTableModel extends DefaultTableModel {
         refreshOrders(orderManager);
     }
 
-
+    /* refreshed the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
     public void refreshOrders(OrderManager orderManager) {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {

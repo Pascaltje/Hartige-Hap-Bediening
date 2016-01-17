@@ -18,62 +18,65 @@ package edu.avans.hartigehap.bediening.logic;
 
 import edu.avans.hartigehap.bediening.io.EmployeeDAO;
 import edu.avans.hartigehap.bediening.model.Employee;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author David
  */
-public class EmployeeManager
-{
-        ArrayList<Employee> EmployeeList = new ArrayList<Employee>();
-	private static EmployeeManager instance = null;
+public class EmployeeManager {
+    ArrayList<Employee> employeeList = new ArrayList<Employee>();
+    private static EmployeeManager instance = null;
 
-	public static EmployeeManager getInstance()
-	{
-		synchronized(EmployeeManager.class)
-		{
-			if(instance == null)
-			{
-				instance = new EmployeeManager();
-			}
-		}
-		return instance;
-	}
-	
-	private EmployeeManager()
-	{
-
-	}
-        
-        public Employee Login(String Email){
-            EmployeeDAO EmployeeDAO = new EmployeeDAO();
-            Employee Employee = EmployeeDAO.CheckLogin(Email);
-            if(Employee!=null){
-                
-                for(Employee Listemployee : EmployeeList ){
-                    if(Listemployee.getEmail().equals(Employee.getEmail())){
-                        Employee = null;
-                    }
-                }
-                
-                if(Employee!=null){
-                    EmployeeList.add(Employee); 
-                }
-            }
-            return Employee;
-        }
-        
-        public void Loguit(String Name){
-            for(Employee Listemployee : EmployeeList ){
-                if((Listemployee.getFirstName() + " " + Listemployee.getLastName()).equals(Name)){
-                    EmployeeList.remove(Listemployee);
-                }
+    public static EmployeeManager getInstance() {
+        synchronized (EmployeeManager.class) {
+            if (instance == null) {
+                instance = new EmployeeManager();
             }
         }
-        
-        public ArrayList<Employee> getEmployee(){
-            return EmployeeList;
+        return instance;
+    }
+
+    private EmployeeManager() {
+
+    }
+
+    /* Function for loggin the user in an adding the user to an employeelist
+     *@param email String
+     *@return employee
+     */
+    public Employee logIn(String email) {
+        EmployeeDAO EmployeeDAO = new EmployeeDAO();
+        Employee employee = EmployeeDAO.CheckLogin(email);
+        if (employee != null) {
+
+            for (Employee Listemployee : employeeList) {
+                if (Listemployee.getEmail().equals(employee.getEmail())) {
+                    employee = null;
+                }
+            }
+
+            if (employee != null) {
+                employeeList.add(employee);
+            }
         }
-        
+        return employee;
+    }
+
+    /* Function for loggin the user out and removing it from the employeelist
+    *@param name String
+    *@return employee
+    */
+    public void logOut(String Name) {
+        for (Employee listEmployee : employeeList) {
+            if ((listEmployee.getFirstName() + " " + listEmployee.getLastName()).equals(Name)) {
+                employeeList.remove(listEmployee);
+            }
+        }
+    }
+
+    public ArrayList<Employee> getEmployee() {
+        return employeeList;
+    }
+
 }

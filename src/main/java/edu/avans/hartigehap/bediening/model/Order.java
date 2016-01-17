@@ -44,78 +44,115 @@ public class Order
 		this.tableNumber = tableNumber;
 		orderDetails = new ArrayList<>();
 	}
-
+	/* get the tablenumber of an order
+	*@return int
+	*/
 	public int getTableNumber()
 	{
 		return tableNumber;
 	}
-
+	/* set the tablenumber of an order
+	*@param tableNumber int
+	*@return void
+ 	*/
 	public void setTableNumber(int tableNumber)
 	{
 		this.tableNumber = tableNumber;
 	}
-
+	/* get the id of an order
+	*@return int
+ 	*/
 	public int getId()
 	{
 		return id;
 	}
-
+	/* set the id of an order
+	*@param id int
+	*@return void
+ 	*/
 	public void setId(int id)
 	{
 		this.id = id;
 	}
-
+	/* get the guesId from an order
+	*@return int
+ 	*/
 	public int getGuestId()
 	{
 		return guestId;
 	}
-
+	/* set the guestId from an order
+	*@param guestId int
+	*@return void
+ 	*/
 	public void setGuestId(int guestId)
 	{
 		this.guestId = guestId;
 	}
-
+	/* get the paymentstatus from an order
+	*@return PaymentStatus
+ 	*/
 	public PaymentStatus getPaymentStatus()
 	{
 		return paymentStatus;
 	}
-
+	/* set the paymentstatus from an order
+	*@param paymentStatus PaymentStatus
+	*@return void
+ 	*/
 	public void setPaymentStatus(PaymentStatus paymentStatus)
 	{
 		this.paymentStatus = paymentStatus;
 	}
-	
+	/* get the date from an order
+	*@return String
+ 	*/
 	public String getDate()
 	{
 		return date;
 	}
-
+	/* set the date from an order
+	*@param date String
+	*@return void
+ 	*/
 	public void setDate(String date)
 	{
 		this.date = date;
 	}
-
+	/* get the total amount from an order
+	*@return double
+ 	*/
 	public double getTotalAmount()
 	{
 		return totalAmount;
 	}
-
+	/* set the total amount from an order
+	*@param totalAmount Double
+	*@return void
+ 	*/
 	public void setTotalAmount(double totalAmount)
 	{
 		this.totalAmount = totalAmount;
 	}
-
+	/* get all the orderItems from an order and places them into a arrayList with orderItems
+	*@return List<OrderDetaiL>
+ 	*/
 	public List<OrderDetail> getOrderDetails()
 	{
 		return orderDetails;
 	}
-
+	/* set all the orderItems from an order and places them into a arrayList with orderItems
+	*@param orderDetails ArrayList<OrderDetail>
+	*@return void
+ 	*/
 	public void setOrderDetails(ArrayList<OrderDetail> orderDetails)
 	{
 		orderDetails.clear();
 		orderDetails.addAll(orderDetails);
 	}
-
+	/* add an orderItem from an order to the orderItem list
+	*@return void
+ 	*/
 	public void addOrderDetail(OrderDetail orderDetail)
 	{
 		orderDetails.add(orderDetail);

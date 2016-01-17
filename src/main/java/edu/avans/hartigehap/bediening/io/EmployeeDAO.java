@@ -30,14 +30,17 @@ import java.util.logging.Logger;
  */
 public class EmployeeDAO
 {
-
-    public Employee CheckLogin(String Email){
-        Employee Employee = null;
+    /*Check if the email from the employee matches with the one in the database
+    *@param email string
+    *@return empoyee
+    */
+    public Employee CheckLogin(String email){
+        Employee employee = null;
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
             try {
                 PreparedStatement statement = connection.createStatement("select * from dhh_employee where dhh_employee.email = ?");
-                statement.setString(1, Email);
+                statement.setString(1, email);
                 ResultSet resultSet = connection.execute(statement);
                 if (resultSet != null) {
                      while (resultSet.next()) {
@@ -48,13 +51,12 @@ public class EmployeeDAO
                         Double salary = resultSet.getDouble("salary");
                         String address = resultSet.getString("address");
                         String postalCode = resultSet.getString("postalCode");
-                        String email = resultSet.getString("email");
                         String phoneNo = ""; //resultSet.getString("phoneNo");
                         String joinDate = "";
                         String EMPLOYEEFUNCTIONfunctionName = resultSet.getString("EMPLOYEEFUNCTIONfunctionName");
                          
                          
-                         Employee = new Employee(employeeId, firstName, lastName, birthday, address, salary, joinDate, EMPLOYEEFUNCTIONfunctionName, email);
+                         employee = new Employee(employeeId, firstName, lastName, birthday, address, salary, joinDate, EMPLOYEEFUNCTIONfunctionName, email);
                          
                          
                      }
@@ -67,6 +69,6 @@ public class EmployeeDAO
             }  
         
         }
-    return Employee;   
+    return employee;
     }   
 }

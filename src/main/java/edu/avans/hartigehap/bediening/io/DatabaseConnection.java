@@ -45,7 +45,9 @@ public class DatabaseConnection
     {
         connection = null;
     }
-
+    /* opens the connection to the database
+    *@return boolean
+     */
     public boolean open()
     {
         boolean result = true;
@@ -63,7 +65,9 @@ public class DatabaseConnection
         }
         return result;
     }
-
+    /* checks if the database connection is open
+      *@return boolean
+       */
     public boolean isOpen()
     {
         if(connection != null)
@@ -78,7 +82,9 @@ public class DatabaseConnection
         }
         return false;
     }
-
+    /* closes the database connection
+      *@return void
+       */
     public void close()
     {
         try
@@ -89,7 +95,9 @@ public class DatabaseConnection
             LOG.log(Level.SEVERE, "", exception);
         }
     }
-
+    /* function for a createstatement
+      *@return PreparedStatement
+       */
     public PreparedStatement createStatement(String query)
     {
         if(query != null && isOpen())
@@ -104,7 +112,9 @@ public class DatabaseConnection
         }
         return null;
     }
-
+    /* function for a update statment
+      *@return boolean
+       */
     public boolean executeUpdate(PreparedStatement query)
     {
         try
@@ -116,7 +126,9 @@ public class DatabaseConnection
         }
         return false;
     }
-
+    /* function for executing an preparedstatment
+      *@return ResultSet
+       */
     public ResultSet execute(PreparedStatement query)
     {
         try

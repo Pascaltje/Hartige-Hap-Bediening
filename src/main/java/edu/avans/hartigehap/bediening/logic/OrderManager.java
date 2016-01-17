@@ -31,99 +31,108 @@ import java.util.logging.Logger;
 /**
  * @author David
  */
-public class OrderManager
-{
-	private final Logger LOG = Logger.getLogger(OrderManager.class.getSimpleName());
-	private static OrderManager instance = null;
-	private OrderDAO orderDAO;
+public class OrderManager {
+    private final Logger LOG = Logger.getLogger(OrderManager.class.getSimpleName());
+    private static OrderManager instance = null;
+    private OrderDAO orderDAO;
 
-	public static OrderManager getInstance()
-	{
-		synchronized (OrderManager.class)
-		{
-			if (instance == null)
-			{
-				instance = new OrderManager();
-			}
-		}
-		return instance;
-	}
+    public static OrderManager getInstance() {
+        synchronized (OrderManager.class) {
+            if (instance == null) {
+                instance = new OrderManager();
+            }
+        }
+        return instance;
+    }
 
-	private OrderManager()
-	{
-		orderDAO = new OrderDAO();
-	}
+    private OrderManager() {
+        orderDAO = new OrderDAO();
+    }
 
-	public void refresh()
-	{
-		Logger.getLogger(OrderManager.class.getName()).log(Level.INFO, "Refresh");
-	}
+    public void refresh() {
+        Logger.getLogger(OrderManager.class.getName()).log(Level.INFO, "Refresh");
+    }
 
-	public Order getOrderByTableNumber(int tableNumber)
-	{
-		return orderDAO.getOrderByTableNumber(tableNumber);
-	}
+    /* Gets the order by tableNumber
+     *@param tableNumber int
+     *@return order
+     */
+    public Order getOrderByTableNumber(int tableNumber) {
+        return orderDAO.getOrderByTableNumber(tableNumber);
+    }
 
-	public void changeStatusById(int orderId, String newStatus, String itemName)
-	{
-		orderDAO.changeStatusById(orderId, newStatus, itemName);
+    /* Changes the orderstatus by id
+       *@param orderId int, newStatus String, itemName String
+       *@return void
+      */
+    public void changeStatusById(int orderId, String newStatus, String itemName) {
+        orderDAO.changeStatusById(orderId, newStatus, itemName);
 
-	}
+    }
 
-	public ArrayList<Order> getAllOrders(){
-		return orderDAO.getAllOrders();
+    /* Gets all the orders from the database
+     *@return ArrayList<Order>
+     */
+    public ArrayList<Order> getAllOrders() {
+        return orderDAO.getAllOrders();
 
-	}
-	public void setOrderPaid(int orderNo)
-	{
-		if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de bestelling wil afronden?", "WARNING",
-				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			orderDAO.setOrderPaid(orderNo);
-		}
-		else{
+    }
+    /* Changes the orderstatus from an order to paid with the matching id
+          *@param orderNo int
+          *@return void
+         */
+    public void setOrderPaid(int orderNo) {
+        if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de bestelling wil afronden?", "WARNING",
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            orderDAO.setOrderPaid(orderNo);
+        } else {
 
-		}
-	}
+        }
+    }
+            /* On click event that changes the orderstatus in the GUI and database
+            *@param newOrder Order
+             *@param dataTable JTable
+             *@return void
+            */
+    public void checkStatus(JTable dataTable, Order newOrder) {
+        dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                // yes option
+                int row = dataTable.rowAtPoint(evt.getPoint());
+                int col = dataTable.columnAtPoint(evt.getPoint());
+                int orderId = newOrder.getId();
+                int colCount = dataTable.getColumnCount() - 1;
+                String itemName = (String) dataTable.getValueAt(row, 0);
+                LOG.log(Level.INFO, "Col = {0}", col);
 
-	public void checkStatus(JTable dataTable, Order newOrder) {
-		dataTable.addMouseListener(new java.awt.event.MouseAdapter() {
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-					// yes option
-					int row = dataTable.rowAtPoint(evt.getPoint());
-					int col = dataTable.columnAtPoint(evt.getPoint());
-					int orderId = newOrder.getId();
-				    int colCount = dataTable.getColumnCount() - 1;
-					String itemName = (String) dataTable.getValueAt(row, 0);
-					LOG.log(Level.INFO, "Col = {0}", col);
+                if (row >= 0 && col >= colCount) {
+                    if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de status wilt aanpassen?", "WARNING",
+                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        switch (dataTable.getValueAt(row, col).toString()) {
+                            case "Besteld":
+                                changeStatusById(orderId, "In_behandeling", itemName);
+                                dataTable.setValueAt(OrderStatus.In_behandeling, row, col);
+                                break;
+                            case "In_behandeling":
+                                changeStatusById(orderId, "Klaar", itemName);
+                                dataTable.setValueAt(OrderStatus.Klaar, row, col);
+                                break;
+                            case "Klaar":
+                                changeStatusById(orderId, "Besteld", itemName);
+                                dataTable.setValueAt(OrderStatus.Besteld, row, col);
+                                break;
 
-					if (row >= 0 && col >= colCount) {
-						if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de status wilt aanpassen?", "WARNING",
-								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						switch (dataTable.getValueAt(row, col).toString()) {
-							case "Besteld":
-								changeStatusById(orderId, "In_behandeling", itemName);
-								dataTable.setValueAt(OrderStatus.In_behandeling, row, col);
-								break;
-							case "In_behandeling":
-								changeStatusById(orderId, "Klaar", itemName);
-								dataTable.setValueAt(OrderStatus.Klaar, row, col);
-								break;
-							case "Klaar":
-								changeStatusById(orderId, "Besteld", itemName);
-								dataTable.setValueAt(OrderStatus.Besteld, row, col);
-								break;
+                        }
 
-						}
+                    }
+                } else {
+                    // no option
+                }
 
-					}
-				} else {
-					// no option
-				}
+            }
+        });
 
-			}
-		});
-
-	}
+    }
 
 }

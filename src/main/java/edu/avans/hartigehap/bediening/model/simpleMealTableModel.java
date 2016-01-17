@@ -16,7 +16,11 @@ public class SimpleMealTableModel extends DefaultTableModel {
     private ArrayList<OrderDetail> orderItems;
     private ArrayList<Order> orders;
     private ArrayList<OrderDetail> meals;
-
+    /* populates the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
     public SimpleMealTableModel(OrderManager orderManager, ArrayList<Order> orders1) {
         meals = new ArrayList<>();
         orderItems = new ArrayList<>();
@@ -51,7 +55,11 @@ public class SimpleMealTableModel extends DefaultTableModel {
         this.fireTableDataChanged();
         refreshOrders(orderManager);
     }
-
+    /* refreshed the JTable with the correct order data
+                       *@param tableNumber int
+                        *@param orderManager OrderManager
+                        *@return void
+                       */
     public void refreshOrders(OrderManager orderManager) {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -83,7 +91,7 @@ public class SimpleMealTableModel extends DefaultTableModel {
 
                     data[i] = new Object[]
                             {
-                                    orderItem.getItemName(),orders.get(orderItem.getOrderId()).getTableNumber() , orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
+                                    orderItem.getItemName(),orderMap.get(orderItem.getOrderId()).getTableNumber() , orderItem.getAmount(), "\u20ac" + decimalFormat.format(orderItem.getTotalPrice()), orderItem.getDescription(), orderItem.getStatus()
                             };
                 }
 
