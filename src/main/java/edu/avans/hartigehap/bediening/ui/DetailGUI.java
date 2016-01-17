@@ -157,8 +157,11 @@ public class DetailGUI extends JDialog {
 
             paidButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent actionEvent) {
-                    manager.setOrderPaid(newOrder.getId());
-                    JOptionPane.showMessageDialog (null, "De bestelling is afgerond", "Title", JOptionPane.INFORMATION_MESSAGE);
+                    if(newOrder.getPaymentStatus().toString().equals("WANTS_TO_PAY")){
+                        manager.setOrderPaid(newOrder.getId());
+                        JOptionPane.showMessageDialog (null, "De bestelling is afgerond", "Title", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
                 }
             });
         }
