@@ -24,9 +24,9 @@ package edu.avans.hartigehap.bediening.model;
 public enum OrderStatus
 {
 
-	NOT_STARTED,
-	STARTED,
-	READY,
-	FINISHED
+	Besteld,
+	In_behandeling,
+	Klaar
+
 
 }

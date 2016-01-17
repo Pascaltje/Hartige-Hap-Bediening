@@ -16,10 +16,7 @@
  */
 package edu.avans.hartigehap.bediening.io;
 
-import edu.avans.hartigehap.bediening.model.Order;
-import edu.avans.hartigehap.bediening.model.OrderDetail;
-import edu.avans.hartigehap.bediening.model.OrderStatus;
-import edu.avans.hartigehap.bediening.model.PaymentStatus;
+import edu.avans.hartigehap.bediening.model.*;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -43,28 +40,28 @@ public class OrderDAO {
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
             try {
-                PreparedStatement statement = connection.createStatement("SELECT * FROM dhh_order where TABLEtableNo = ? and paymentStatus in (?,?) ");
+                PreparedStatement statement = connection.createStatement("SELECT * FROM dhh_receipt where TABLEtableNo = ? and paymentStatus in (?,?) ");
                 statement.setInt(1, tableNumber);
                 statement.setString(2, "NOT_PAID");
                statement.setString(3,"WANTS_TO_PAY");
                 ResultSet resultSet = connection.execute(statement);
                 if (resultSet != null) {
                     while (resultSet.next()) {
-                        int id = resultSet.getInt("orderNo");
+                        int id = resultSet.getInt("receiptNo");
                         String paymentStatus = resultSet.getString("paymentStatus");
                         int tableNo = resultSet.getInt("TABLEtableNo");
                         Date date = resultSet.getDate("orderDatetime");
                         Date dt = new java.util.Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentTime = sdf.format(date);
-                        Order newOrder = new Order(id, 1, PaymentStatus.valueOf(resultSet.getString("paymentStatus")), currentTime, 20.00, tableNo);
-                        order = newOrder;
-                        PreparedStatement subStament = connection.createStatement("SELECT dhh_orderitem . * ,dhh_item.COURSEcourseName as coursename, dhh_item.Price * dhh_orderitem.amount AS Itemtotalprice FROM dhh_orderitem, dhh_item WHERE ORDERorderNo = ? AND dhh_orderitem.ITEMitemName = dhh_item.itemName");
+                        order = new Order(id, 1, PaymentStatus.valueOf(resultSet.getString("paymentStatus")), currentTime, 0.00, tableNo);
+
+                        PreparedStatement subStament = connection.createStatement("SELECT dhh_orderline . * ,dhh_item.COURSEcourseName as coursename, dhh_item.Price * dhh_orderline.amount AS Itemtotalprice FROM dhh_orderline, dhh_item WHERE RECEIPTreceiptNo = ? AND dhh_orderline.ITEMitemName = dhh_item.itemName");
                         subStament.setInt(1, order.getId());
                         ResultSet subResultSet = connection.execute(subStament);
                         if (subResultSet != null) {
                             while (subResultSet.next()) {
-                                OrderDetail orderDetails = new OrderDetail(subResultSet.getInt("ORDERorderNo"), OrderStatus.values()[subResultSet.getInt("orderStatus") - 1], subResultSet.getInt("EMPLOYEEemployeeid"), subResultSet.getInt("amount"), subResultSet.getString("description"), subResultSet.getString("ITEMitemName"), subResultSet.getDouble("Itemtotalprice"), subResultSet.getString("coursename"));
+                                OrderDetail orderDetails = new OrderDetail(subResultSet.getInt("RECEIPTreceiptNo"),  OrderStatus.valueOf(subResultSet.getString("ORDERSTATUSstatusName")), subResultSet.getInt("EMPLOYEEemployeeid"), subResultSet.getInt("amount"), subResultSet.getString("description"), subResultSet.getString("ITEMitemName"), subResultSet.getDouble("Itemtotalprice"), subResultSet.getString("coursename"));
                                 order.addOrderDetail(orderDetails);
                             }
                         }
@@ -81,12 +78,12 @@ public class OrderDAO {
 
     }
 
-    public void changeStatusById(int orderId, int newStatus, String itemName) {
+    public void changeStatusById(int orderId, String newStatus, String itemName) {
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
             try {
-                PreparedStatement statement = connection.createStatement("UPDATE dhh_orderitem set orderStatus = ? where ORDERorderNo = ? and ITEMitemName = ?");
-                statement.setInt(1, newStatus);
+                PreparedStatement statement = connection.createStatement("UPDATE dhh_orderline set ORDERSTATUSstatusName = ? where RECEIPTreceiptNo = ? and ITEMitemName = ?");
+                statement.setString(1, newStatus);
                 statement.setInt(2, orderId);
                 statement.setString(3, itemName);
                 statement.execute();
@@ -102,7 +99,7 @@ public class OrderDAO {
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
             try {
-                PreparedStatement statement = connection.createStatement("UPDATE dhh_order set paymentStatus = ? where orderNo = ? ");
+                PreparedStatement statement = connection.createStatement("UPDATE dhh_receipt set paymentStatus = ? where receiptNo = ? ");
                 statement.setString(1, "PAID");
                 statement.setInt(2, orderNo);
                 statement.execute();
@@ -121,20 +118,20 @@ public class OrderDAO {
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
             try {
-                PreparedStatement statement = connection.createStatement("SELECT * FROM dhh_order where paymentStatus = ? or paymentStatus = ?");
+                PreparedStatement statement = connection.createStatement("SELECT * FROM dhh_receipt where paymentStatus = ? or paymentStatus = ?");
                 statement.setString(1, "NOT_PAID");
                 statement.setString(2, "WANTS_TO_PAY");
                 ResultSet resultSet = connection.execute(statement);
                 if (resultSet != null) {
                     while (resultSet.next()) {
-                        int id = resultSet.getInt("orderNo");
+                        int id = resultSet.getInt("receiptNo");
                         String paymentStatus = resultSet.getString("paymentStatus");
                         int tableNo = resultSet.getInt("TABLEtableNo");
                         Date date = resultSet.getDate("orderDatetime");
                         Date dt = new java.util.Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentTime = sdf.format(date);
-                        Order newOrder = new Order(id, 1, PaymentStatus.valueOf(resultSet.getString("paymentStatus")), currentTime, 20.00, tableNo);
+                        Order newOrder = new Order(id, 1, PaymentStatus.valueOf(resultSet.getString("paymentStatus")), currentTime, 0.00, tableNo);
                         orders.add(newOrder);
                     }
 
@@ -155,29 +152,29 @@ public class OrderDAO {
         DatabaseConnection connection = new DatabaseConnection();
         if (connection.open()) {
             try {
-                PreparedStatement statement = connection.createStatement("SELECT * FROM dhh_order where paymentStatus in (?,?) ");
+                PreparedStatement statement = connection.createStatement("SELECT * FROM dhh_receipt where paymentStatus in (?,?) ");
 
                 statement.setString(1, "NOT_PAID");
                 statement.setString(2,"WANTS_TO_PAY");
                 ResultSet resultSet = connection.execute(statement);
                 if (resultSet != null) {
                     while (resultSet.next()) {
-                        int id = resultSet.getInt("orderNo");
+                        int id = resultSet.getInt("receiptNo");
                         String paymentStatus = resultSet.getString("paymentStatus");
                         int tableNo = resultSet.getInt("TABLEtableNo");
                         Date date = resultSet.getDate("orderDatetime");
                         Date dt = new java.util.Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentTime = sdf.format(date);
-                        Order newOrder = new Order(id, 1, PaymentStatus.valueOf(resultSet.getString("paymentStatus")), currentTime, 20.00, tableNo);
+                        Order newOrder = new Order(id, 1, PaymentStatus.valueOf(resultSet.getString("paymentStatus")), currentTime, 0.00, tableNo);
 
-                        PreparedStatement subStament = connection.createStatement("SELECT dhh_orderitem . * ,dhh_item.COURSEcourseName as coursename, dhh_item.Price * dhh_orderitem.amount AS Itemtotalprice FROM dhh_orderitem, dhh_item WHERE ORDERorderNo = ? AND dhh_orderitem.ITEMitemName = dhh_item.itemName AND dhh_orderitem.orderStatus < ?");
+                        PreparedStatement subStament = connection.createStatement("SELECT dhh_orderline . * ,dhh_item.COURSEcourseName as coursename, dhh_item.Price * dhh_orderline.amount AS Itemtotalprice FROM dhh_orderline, dhh_item WHERE RECEIPTreceiptNo = ? AND dhh_orderline.ITEMitemName = dhh_item.itemName AND dhh_orderline.ORDERSTATUSstatusName <> ?");
                         subStament.setInt(1,newOrder.getId());
-                        subStament.setInt(2,4);
+                        subStament.setString(2,"Klaar");
                         ResultSet subResultSet = connection.execute(subStament);
                         if (subResultSet != null) {
                             while (subResultSet.next()) {
-                                OrderDetail orderDetails = new OrderDetail(subResultSet.getInt("ORDERorderNo"), OrderStatus.values()[subResultSet.getInt("orderStatus") - 1], subResultSet.getInt("EMPLOYEEemployeeid"), subResultSet.getInt("amount"), subResultSet.getString("description"), subResultSet.getString("ITEMitemName"), subResultSet.getDouble("Itemtotalprice"), subResultSet.getString("coursename"));
+                                OrderDetail orderDetails = new OrderDetail(subResultSet.getInt("RECEIPTreceiptNo"),  OrderStatus.valueOf(subResultSet.getString("ORDERSTATUSstatusName")), subResultSet.getInt("EMPLOYEEemployeeid"), subResultSet.getInt("amount"), subResultSet.getString("description"), subResultSet.getString("ITEMitemName"), subResultSet.getDouble("Itemtotalprice"), subResultSet.getString("coursename"));
                                 newOrder.addOrderDetail(orderDetails);
 
                             }

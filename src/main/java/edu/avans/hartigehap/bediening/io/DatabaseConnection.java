@@ -35,7 +35,7 @@ public class DatabaseConnection
     private static final Logger LOG = Logger.getLogger(DatabaseConnection.class.getName());
 
 	private final String HOST = "145.48.6.147";
-	private final String DATABASE = "ivp4a2";
+	private final String DATABASE = "ivp4a";
 	private final String USER = "root";
 	private final String PASSWORD = "10ec4u";
 	

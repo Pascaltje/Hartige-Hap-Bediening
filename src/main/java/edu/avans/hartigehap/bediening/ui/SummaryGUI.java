@@ -197,7 +197,7 @@ public class SummaryGUI extends JFrame {
      public void BuildMenuBar(){
         JMenuBar menubar = new JMenuBar();
 
-        JMenu file = new JMenu("File");
+        JMenu file = new JMenu("Opties");
         file.setMnemonic(KeyEvent.VK_F);
 
         JMenuItem MenuLogin = new JMenuItem("Login");

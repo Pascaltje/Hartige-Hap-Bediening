@@ -18,6 +18,7 @@ package edu.avans.hartigehap.bediening.logic;
 
 import edu.avans.hartigehap.bediening.io.DatabaseConnection;
 import edu.avans.hartigehap.bediening.io.OrderDAO;
+import edu.avans.hartigehap.bediening.model.OrderStatus;
 import edu.avans.hartigehap.bediening.model.Order;
 import edu.avans.hartigehap.bediening.model.OrderDetail;
 import edu.avans.hartigehap.bediening.model.OrderStatus;
@@ -63,7 +64,7 @@ public class OrderManager
 		return orderDAO.getOrderByTableNumber(tableNumber);
 	}
 
-	public void changeStatusById(int orderId, int newStatus, String itemName)
+	public void changeStatusById(int orderId, String newStatus, String itemName)
 	{
 		orderDAO.changeStatusById(orderId, newStatus, itemName);
 
@@ -100,22 +101,19 @@ public class OrderManager
 						if (JOptionPane.showConfirmDialog(null, "Weet u zeker dat u de status wilt aanpassen?", "WARNING",
 								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						switch (dataTable.getValueAt(row, col).toString()) {
-							case "NOT_STARTED":
-								changeStatusById(orderId, 2, itemName);
-								dataTable.setValueAt(OrderStatus.STARTED, row, col);
+							case "Besteld":
+								changeStatusById(orderId, "In_behandeling", itemName);
+								dataTable.setValueAt(OrderStatus.In_behandeling, row, col);
 								break;
-							case "STARTED":
-								changeStatusById(orderId, 3, itemName);
-								dataTable.setValueAt(OrderStatus.READY, row, col);
+							case "In_behandeling":
+								changeStatusById(orderId, "Klaar", itemName);
+								dataTable.setValueAt(OrderStatus.Klaar, row, col);
 								break;
-							case "READY":
-								changeStatusById(orderId, 4, itemName);
-								dataTable.setValueAt(OrderStatus.FINISHED, row, col);
+							case "Klaar":
+								changeStatusById(orderId, "Besteld", itemName);
+								dataTable.setValueAt(OrderStatus.Besteld, row, col);
 								break;
-							case "FINISHED":
-								changeStatusById(orderId, 1, itemName);
-								dataTable.setValueAt(OrderStatus.NOT_STARTED, row, col);
-								break;
+
 						}
 
 					}

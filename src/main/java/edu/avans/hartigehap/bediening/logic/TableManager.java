@@ -49,7 +49,4 @@ public class TableManager {
 
     }
 
-//    public HashMap returnTableStatus(HashMap<Integer, String> map) {
-//        return map;
-//    }
 }
